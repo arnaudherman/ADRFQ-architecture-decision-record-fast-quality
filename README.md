@@ -26,13 +26,21 @@ Les ADR sont rédigées **en français**.
 
 ## 2. État actuel
 
-Deux artefacts existent et font foi :
+Deux artefacts de référence font foi :
 
 - `template-adr-canonique.md` — la structure de référence d'une ADR.
 - `prompt-agent-adr.md` — le comportement de l'agent qui rédige une ADR.
 
-Aucun outillage (commande, script, intégration) n'est encore construit.
-C'est l'objet de la feuille de route (section 7).
+Outillage construit à ce jour :
+
+- **Phase 0** — dépôt initialisé ; dossier `adr/` créé avec `ADR-0001` (exemple
+  fictif exerçant noyau + modules pour valider le rendu du template).
+- **Phase 1** — commande Claude Code `/adr-new`
+  (`.claude/commands/adr-new.md`) : applique « questions d'abord », s'arrête au
+  point de validation, puis génère un seul `.md` canonique dans `adr/`.
+
+Reste à construire : le linter d'ADR (phase 2) et les phases différées
+(voir section 7).
 
 ---
 
