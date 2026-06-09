@@ -38,9 +38,14 @@ Outillage construit à ce jour :
 - **Phase 1** — commande Claude Code `/adr-new`
   (`.claude/commands/adr-new.md`) : applique « questions d'abord », s'arrête au
   point de validation, puis génère un seul `.md` canonique dans `adr/`.
+- **Phase 2** — linter `scripts/lint-adr.py` (Python, sans dépendance) :
+  vérifie la Carte d'identité et ses champs, le statut (liste fermée), le
+  résumé, les mots-clés, les sections du noyau, l'absence de placeholder et la
+  cohérence des liens « Remplace » / « Remplacé par ». Lancer :
+  `python3 scripts/lint-adr.py` (code de sortie 1 si une ADR est non conforme).
 
-Reste à construire : le linter d'ADR (phase 2) et les phases différées
-(voir section 7).
+Reste à construire : les phases différées — export Confluence et multi-template
+par équipe (voir section 7).
 
 ---
 
