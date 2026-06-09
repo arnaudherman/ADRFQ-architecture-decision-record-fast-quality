@@ -43,9 +43,20 @@ Outillage construit à ce jour :
   résumé, les mots-clés, les sections du noyau, l'absence de placeholder et la
   cohérence des liens « Remplace » / « Remplacé par ». Lancer :
   `python3 scripts/lint-adr.py` (code de sortie 1 si une ADR est non conforme).
+- **Workflow utilisateur final — GitHub Copilot dans VSCode.** C'est la cible :
+  l'architecte ouvre le dépôt dans VSCode et rédige son ADR de A à Z via Copilot,
+  sans Claude Code. Deux fichiers portent le comportement « questions d'abord »
+  côté Copilot :
+  - `.github/copilot-instructions.md` — contexte permanent, appliqué
+    automatiquement à toutes les requêtes du chat du dépôt ;
+  - `.github/prompts/adr-new.prompt.md` — commande `/adr-new` dans Copilot Chat
+    (mode agent) qui pose les questions, s'arrête, puis écrit le `.md` dans `adr/`.
+  La commande Claude Code `/adr-new` (`.claude/commands/`) reste disponible pour
+  un usage interne ; les deux pointent vers les mêmes sources de vérité.
 
-Reste à construire : les phases différées — export Confluence et multi-template
-par équipe (voir section 7).
+Reste à construire : le multi-template par équipe (différé, voir section 7).
+La publication vers une plateforme type Confluence est **hors sujet** : la seule
+livraison attendue du dépôt est le fichier ADR markdown de qualité.
 
 ---
 
@@ -111,8 +122,10 @@ explicite.
 - L'agent qui produit une ADR de qualité au format canonique.
 - Les garde-fous de qualité et anti-hallucination (validation des champs).
 
-**Hors périmètre pour l'instant** (à ne pas implémenter sans demande)
-- L'export / le formatage vers Confluence (Cloud vs Data Center non tranché).
+**Hors périmètre** (à ne pas implémenter sans demande)
+- L'export / le formatage vers une plateforme (Confluence, etc.) : **hors sujet**.
+  La livraison du dépôt est le fichier ADR markdown ; sa mise en plateforme ne
+  nous concerne pas.
 - Le support de plusieurs templates d'équipe (mapping de champs canoniques
   vers des templates existants). Envisagé, mais reporté : on standardise
   d'abord, on harmonisera l'existant ensuite si la gouvernance suit.
