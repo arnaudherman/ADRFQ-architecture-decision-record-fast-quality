@@ -3,7 +3,6 @@ description: Rédige un ADR de qualité (questions d'abord) à partir d'un PV ou
 name: adr-new
 argument-hint: [chemin/vers/PV.md] | [sujet de la décision] | (vide → entretien)
 agent: agent
-tools: ['edit', 'search', 'codebase']
 ---
 
 Tu rédiges un **Architecture Decision Record (ADR)** pour l'équipe d'architecture
