@@ -35,24 +35,21 @@ Outillage construit à ce jour :
 
 - **Phase 0** — dépôt initialisé ; dossier `adr/` créé avec `ADR-0001` (exemple
   fictif exerçant noyau + modules pour valider le rendu du template).
-- **Phase 1** — commande Claude Code `/adr-new`
-  (`.claude/commands/adr-new.md`) : applique « questions d'abord », s'arrête au
-  point de validation, puis génère un seul `.md` canonique dans `adr/`.
+- **Phase 1 — agent rédacteur, exposé dans GitHub Copilot (VSCode).** C'est la
+  cible : l'architecte ouvre le dépôt dans VSCode et rédige son ADR de A à Z via
+  Copilot. Deux fichiers portent le comportement « questions d'abord » :
+  - `.github/copilot-instructions.md` — contexte permanent, appliqué
+    automatiquement à toutes les requêtes du chat du dépôt ;
+  - `.github/prompts/adr-new.prompt.md` — commande `/adr-new` dans Copilot Chat
+    (mode agent) qui pose les questions, s'arrête au point de validation, puis
+    écrit un seul `.md` canonique dans `adr/`.
+  Les deux s'appuient sur les fichiers sources de vérité ci-dessus
+  (`prompt-agent-adr.md`, `template-adr-canonique.md`).
 - **Phase 2** — linter `scripts/lint-adr.py` (Python, sans dépendance) :
   vérifie la Carte d'identité et ses champs, le statut (liste fermée), le
   résumé, les mots-clés, les sections du noyau, l'absence de placeholder et la
   cohérence des liens « Remplace » / « Remplacé par ». Lancer :
   `python3 scripts/lint-adr.py` (code de sortie 1 si une ADR est non conforme).
-- **Workflow utilisateur final — GitHub Copilot dans VSCode.** C'est la cible :
-  l'architecte ouvre le dépôt dans VSCode et rédige son ADR de A à Z via Copilot,
-  sans Claude Code. Deux fichiers portent le comportement « questions d'abord »
-  côté Copilot :
-  - `.github/copilot-instructions.md` — contexte permanent, appliqué
-    automatiquement à toutes les requêtes du chat du dépôt ;
-  - `.github/prompts/adr-new.prompt.md` — commande `/adr-new` dans Copilot Chat
-    (mode agent) qui pose les questions, s'arrête, puis écrit le `.md` dans `adr/`.
-  La commande Claude Code `/adr-new` (`.claude/commands/`) reste disponible pour
-  un usage interne ; les deux pointent vers les mêmes sources de vérité.
 
 Reste à construire : le multi-template par équipe (différé, voir section 7).
 La publication vers une plateforme type Confluence est **hors sujet** : la seule
@@ -185,27 +182,25 @@ avant de passer à la suivante.
 
 ---
 
-## 8. Structure de dépôt proposée
-
-À adapter aux conventions du dépôt cible.
+## 8. Structure du dépôt
 
 ```
 .
-├── README.md                     # ce document
-├── template-adr-canonique.md     # template de référence
-├── prompt-agent-adr.md           # comportement de l'agent
+├── README.md                     # ce document de passation et de plan
+├── template-adr-canonique.md     # template de référence (source de vérité)
+├── prompt-agent-adr.md           # comportement de l'agent (source de vérité)
 ├── adr/                          # les ADR produites
-│   └── ADR-0001-exemple.md
-├── .claude/
-│   └── commands/
-│       └── adr-new.md            # commande agent (phase 1)
+│   └── ADR-0001-exemple.md       # exemple fictif (valide le rendu)
+├── .github/                      # intégration GitHub Copilot (cible utilisateur)
+│   ├── copilot-instructions.md   # contexte permanent, auto-appliqué
+│   └── prompts/
+│       └── adr-new.prompt.md     # commande /adr-new dans Copilot Chat
 └── scripts/
-    └── lint-adr.*                # linter d'ADR (phase 2)
+    └── lint-adr.py               # linter d'ADR (phase 2)
 ```
 
-Choix du langage du linter (Python ou Node) : à aligner sur les conventions
-du dépôt d'accueil. Aucune dépendance lourde requise — c'est de la lecture de
-markdown.
+Linter en Python (bibliothèque standard, aucune dépendance) — c'est de la
+lecture de markdown.
 
 ---
 
