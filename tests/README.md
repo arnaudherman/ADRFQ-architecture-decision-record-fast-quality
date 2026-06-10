@@ -11,6 +11,9 @@ injustifié, banalités sur la techno, modules optionnels vides).
   aucune alternative, aucun critère, aucune conséquence discutée.
 - `fixtures/ADR-attendue-pv-pauvre.md` — l'ADR **de référence** que l'agent devrait
   produire à partir de ce PV. C'est la cible de comparaison ; elle passe le linter.
+- `fixtures/ADR-produite-test-2026-06-10.md` — la sortie **réelle** de l'agent au test
+  du 2026-06-10 (après corrections), conservée comme exemple conforme. Voir
+  « variation acceptable » dans l'historique ci-dessous.
 
 ## Protocole (manuel, dans VS Code + Copilot)
 
@@ -41,6 +44,25 @@ injustifié, banalités sur la techno, modules optionnels vides).
 - Conséquence positive du type « base éprouvée / largement supportée ».
 - Modules optionnels présents mais vides, ou pseudo-option « Autres options — non
   documentées ».
+
+## Historique de validation
+
+**Cycle du 2026-06-10** — corrections appliquées au commit `aa48ea1` (prompt, linter,
+`.github/`), puis test rejoué sur le PV pauvre. L'agent produit désormais une ADR
+conforme (passe le linter).
+
+| Fuite | Avant correction | Après correction |
+|---|---|---|
+| Résumé inventé | « base relationnelle stable… mature et supportée » | « bénéfice non documenté en séance » |
+| Statut | Accepté sans vote | Proposé (règle mécanique) |
+| Conséquence banale | « éprouvée et largement supportée » | contextuelle (« provisioning attribué ») |
+| Modules vides | inclus avec « non documenté » | retirés |
+
+**Variation acceptable.** L'agent peut lister des risques génériques dans les
+conséquences négatives (effort d'exploitation, compétences, scaling, SLA…) **à
+condition** qu'ils soient explicitement encadrés comme « non documentés en séance » et
+présentés comme points d'analyse à venir : c'est utile au lecteur et ne doit **pas**
+être durci. Exemple conservé : `fixtures/ADR-produite-test-2026-06-10.md`.
 
 > À rejouer après **toute** modification de `prompt-agent-adr.md`,
 > `template-adr-canonique.md` ou des fichiers `.github/`.
