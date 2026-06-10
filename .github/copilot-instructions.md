@@ -28,6 +28,11 @@ Un exemple de rendu conforme est disponible : [adr/ADR-0001-exemple.md](../adr/A
   (2) la liste des questions, en priorité **alternatives écartées** et **conséquences
   négatives / compromis acceptés** ; (3) les modules optionnels que tu comptes activer
   et pourquoi. **Puis tu t'ARRÊTES et tu attends les réponses. Tu ne rédiges pas l'ADR avant.**
+- **Cadre tes questions.** Maximum **7 questions** au premier tour, regroupées par thème ;
+  priorité aux alternatives écartées, conséquences négatives et au statut / validation ;
+  **pas de questions de design technique** (versions, extensions, RTO/RPO, réplication…)
+  sauf si la décision porte dessus ; si le PV permet d'inférer une réponse, propose-la et
+  demande confirmation plutôt qu'une question ouverte.
 - **Point laissé ouvert.** Si l'architecte choisit de ne pas trancher un point, tu l'écris
   explicitement « non tranché en séance » dans l'ADR, plutôt que de l'inventer.
 
@@ -43,22 +48,34 @@ Un exemple de rendu conforme est disponible : [adr/ADR-0001-exemple.md](../adr/A
   arbitrage entre options → ajoute « Critères de décision » + « Options considérées » ;
   décision structurante / coûteuse à défaire → ajoute en plus « Validation et suivi » ;
   toujours, si une source existe → ajoute « Références ».
+- **Un module dont le contenu se réduirait à « non documenté en séance » est RETIRÉ**,
+  jamais inclus vide. **Pas de pseudo-option** (« Autres options — non documentées ») :
+  une seule option discutée → retire « Options considérées » et mentionne-le dans le Contexte.
 
 ## Règles de qualité (ce qui fait une bonne ADR)
 
 - Le **résumé en une phrase est auto-portant** : il contient la décision *et* le pourquoi.
   Gabarit : « Dans le contexte de X, face à Y, nous avons décidé Z afin d'obtenir W, en acceptant V. »
+  **Ne complète jamais cette formule par inférence** (bloc lu en priorité par l'IA) :
+  problème non dit → « face à un besoin non documenté en séance » ; bénéfice non dit →
+  « afin d'obtenir un bénéfice non documenté en séance » ; compromis non discuté →
+  « en acceptant des compromis non évalués en séance ».
 - Le **contexte explique le POURQUOI**, lisible par quelqu'un d'extérieur à l'équipe.
   Tout sigle ou terme interne est explicité une fois.
 - Les **options écartées valent autant que l'option retenue** : un vrai « contre », pas un repoussoir.
 - Les **conséquences sont honnêtes** : toujours une face négative ou un compromis assumé.
+  **Pas de banalités sur la techno** (« éprouvé », « écosystème mature », « largement
+  supporté ») : une conséquence positive valide découle de la décision *dans ce contexte*,
+  pas des mérites du produit. Rien discuté → « non évaluées en séance ».
 - **Aucun placeholder dans la sortie finale.** Section non remplissable → tu poses la question,
   ou tu écris explicitement « non documenté en séance ».
 
 ## Règles anti-hallucination (ces ADR seront consultées en masse par un MCP/RAG)
 
-- Le **statut** appartient à la liste fermée { Proposé, Accepté, Remplacé, Déprécié, Rejeté }
-  et est rempli sans ambiguïté. **En cas de doute, statut = Proposé** (jamais « Accepté » par défaut).
+- Le **statut** appartient à la liste fermée { Proposé, Accepté, Remplacé, Déprécié, Rejeté }.
+  « Accepté » **uniquement** si le PV mentionne un vote, une validation formelle ou une
+  approbation nominative ; un consensus informel sans vote → **Proposé**. **En cas de doute →
+  Proposé**, toujours (jamais « Accepté » par défaut).
 - Si la décision en **remplace** une autre, renseigne « Remplace » dans le nouvel ADR et
   propose la mise à jour de « Remplacé par » dans l'ADR visée (les deux côtés, quand l'info existe).
 - Les **mots-clés** sont concrets (techno, composant, domaine métier) pour la recherche sémantique.

@@ -52,6 +52,11 @@ liens avec une décision remplacée.
    écartées** et **conséquences négatives / compromis acceptés** ;
 3. les **modules optionnels** que tu comptes activer et pourquoi.
 
+**Maximum 7 questions au premier tour, regroupées par thème.** Pas de questions de
+design technique (versions, extensions, RTO/RPO, réplication…) sauf si la décision
+porte explicitement dessus ; si le PV permet d'inférer une réponse, propose-la et
+demande confirmation plutôt qu'une question ouverte.
+
 **Puis ARRÊTE-TOI et attends les réponses de l'architecte. N'écris AUCUN fichier ADR
 tant que les trous bloquants ne sont pas comblés.** Même si tu juges avoir assez de
 contexte, tu poses d'abord les questions et tu attends. Si l'architecte laisse un point
@@ -66,6 +71,8 @@ Une fois les réponses reçues et les trous comblés :
 2. **Modules** : noyau toujours présent ; ajoute « Critères de décision » + « Options
    considérées » s'il y a arbitrage ; ajoute « Validation et suivi » si la décision est
    structurante ; ajoute « Références » dès qu'une source existe. Ne déplace jamais une section.
+   **Un module qui se réduirait à « non documenté en séance » est retiré, pas inclus vide ;
+   pas de pseudo-option « Autres options ».**
 3. **Fichier** : écris **un seul** fichier `adr/ADR-XXXX-<titre-court-en-kebab-case>.md`
    via l'outil d'édition.
 4. **Contenu** : template canonique rempli, **sans aucun commentaire `<!-- -->`**,

@@ -37,6 +37,16 @@ RE_HEADING = re.compile(r"^#{1,6}\s+(.*?)\s*$")
 RE_ADR_REF = re.compile(r"ADR-\d{4}")
 # Placeholder = [texte] qui n'est PAS un lien markdown [texte](url).
 RE_PLACEHOLDER = re.compile(r"\[[^\]\n]+\](?!\()")
+MODULES_OPTIONNELS = [
+    "Critères de décision",
+    "Options considérées",
+    "Validation et suivi",
+    "Références",
+]
+# « non documenté / évalué(e)(s) / tranché en séance » et variantes.
+RE_NON_SEANCE = re.compile(r"non\s+\w+\s+en\s+séance", re.IGNORECASE)
+# Formules vagues, interdites dans le résumé (bloc lu en priorité par l'IA).
+RE_RESUME_CREUX = re.compile(r"\betc\b\.?|d'autres compromis|\bdivers\b", re.IGNORECASE)
 
 
 class Rapport:
@@ -96,6 +106,25 @@ def section_contenu(texte, fragment_titre):
     return "\n".join(corps)
 
 
+def module_vide(corps):
+    """Vrai si le corps d'un module n'a aucun contenu réel, ou seulement des
+    mentions « non … en séance » (sous-titres et puces ignorés)."""
+    if corps is None:
+        return False
+    lignes = []
+    for ligne in corps.splitlines():
+        s = ligne.strip()
+        if not s or s.startswith("#"):
+            continue
+        s = re.sub(r"^[-*+]\s+", "", s)  # retire le marqueur de puce
+        lignes.append(s)
+    if not lignes:
+        return True
+    reste = RE_NON_SEANCE.sub("", " ".join(lignes))
+    reste = re.sub(r"[\s.;,:–—-]+", "", reste)
+    return reste == ""
+
+
 def lint_fichier(chemin):
     texte = Path(chemin).read_text(encoding="utf-8")
     r = Rapport(chemin)
@@ -143,6 +172,19 @@ def lint_fichier(chemin):
         quote = [l for l in resume.splitlines() if l.strip().startswith(">") and l.strip(" >")]
         if not quote:
             r.err("Résumé", "résumé en une phrase manquant (blockquote « > … »)")
+
+        # 3a. Statut « Accepté » incompatible avec un résumé troué
+        if statut == "Accepté" and RE_NON_SEANCE.search(resume):
+            r.err("Statut", "statut « Accepté » incompatible avec un résumé incomplet (« non … en séance ») : une décision pas mûre reste « Proposé »")
+        # 3b. Formules vagues dans le résumé
+        m_creux = RE_RESUME_CREUX.search(resume)
+        if m_creux:
+            r.err("Résumé", f"formule vague dans le résumé (« {m_creux.group(0)} ») — préciser ou retirer")
+
+    # 3c. Module optionnel présent mais vide → à retirer (pas inclure vide)
+    for module in MODULES_OPTIONNELS:
+        if any(module in t for t in tt) and module_vide(section_contenu(texte, module)):
+            r.err("module", f"module optionnel vide, à retirer : « {module} »")
 
     # 4. Aucun placeholder ni commentaire de gabarit résiduel
     if "<!--" in texte:

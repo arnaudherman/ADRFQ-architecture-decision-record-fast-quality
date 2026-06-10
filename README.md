@@ -242,6 +242,12 @@ Toute évolution du format se fait dans ces deux fichiers. Pensez à répercuter
 changement dans `scripts/lint-adr.py` (les vérifications) et, si besoin, dans les
 fichiers `.github/`. Lancez le linter après modification.
 
+**Non-régression.** Le dossier `tests/fixtures/` contient un PV volontairement pauvre
+et l'ADR de référence attendue (cas qui, en test réel, faisait halluciner l'agent :
+résumé inventé, statut « Accepté » injustifié, banalités sur la techno, modules vides).
+Après toute modification de `prompt-agent-adr.md`, `template-adr-canonique.md` ou des
+fichiers `.github/`, rejouez le protocole décrit dans `tests/README.md`.
+
 ---
 
 ## 12. Références — dépôts d'inspiration

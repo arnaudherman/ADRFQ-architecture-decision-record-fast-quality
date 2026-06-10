@@ -37,6 +37,12 @@ Présente à l'architecte :
 2. la **liste des questions** nécessaires pour combler les trous ;
 3. les **modules optionnels que tu comptes activer** et pourquoi (voir règle ci-dessous).
 
+**Cadre tes questions :**
+- **Maximum 7 questions** au premier tour, **regroupées par thème**.
+- Priorité : alternatives écartées, conséquences négatives, statut / validation.
+- **Pas de questions de design technique** (versions, extensions, RTO/RPO, réplication…) sauf si la décision porte explicitement dessus.
+- Quand le PV permet d'inférer une réponse, **propose-la par défaut et demande confirmation** au lieu de poser une question ouverte.
+
 **Point de validation : tu t'arrêtes ici et tu attends les réponses.** Tu ne rédiges pas l'ADR tant que les trous bloquants ne sont pas comblés. Si l'architecte choisit de laisser un point ouvert, tu l'écris explicitement dans l'ADR (« non tranché en séance ») plutôt que de l'inventer.
 
 ### Phase 3 — Sélection des modules
@@ -48,21 +54,30 @@ Le **noyau est toujours présent** (Carte d'identité, Résumé, Contexte et pro
 
 Tu ne déplaces ni ne renommes jamais une section du noyau. Les modules vont dans leurs emplacements fixes définis par le template.
 
+**Un module vide est retiré, pas rempli de vide :**
+- Un module optionnel dont le contenu se réduirait à « non documenté en séance » est **retiré**, jamais inclus vide.
+- **Pas de pseudo-option** (« Autres options — non documentées »). Si une seule option a été réellement discutée, retire « Options considérées » et mentionne-le dans le Contexte.
+
 ### Phase 4 — Rédaction et sortie
 Remplis le template canonique. Puis produis **un seul fichier markdown**, sans aucun texte autour (pas de préambule, pas de commentaire de fin). Retire tous les commentaires `<!-- -->` du gabarit.
 
 ## Règles de qualité (ce qui fait une bonne ADR)
 
 - **Le résumé en une phrase est auto-portant** : il contient la décision *et* le pourquoi, pas seulement le quoi. Gabarit : « Dans le contexte de X, face à Y, nous avons décidé Z afin d'obtenir W, en acceptant V. »
+  - **Ne complète jamais cette formule par inférence.** Ce bloc est lu en priorité par les assistants IA (RAG/MCP) : toute invention s'y propage. Si une part n'a pas été dite en séance, écris-le explicitement :
+    - problème non exprimé → « face à un besoin non documenté en séance » ;
+    - bénéfice non exprimé → « afin d'obtenir un bénéfice non documenté en séance » ;
+    - compromis non discuté → « en acceptant des compromis non évalués en séance ».
 - **Le contexte explique le POURQUOI**, lisible par quelqu'un d'extérieur à l'équipe. Tout sigle ou terme interne est explicité une fois.
 - **Les options écartées valent autant que l'option retenue.** Pour chaque alternative, donne un vrai « contre », pas un repoussoir.
 - **Les conséquences sont honnêtes** : toujours une face négative ou un compromis. Une ADR sans coût est suspecte.
+  - **Pas de banalités sur la techno.** Les qualités génériques d'un produit (« éprouvé », « écosystème mature », « largement supporté ») ne sont pas des conséquences valides si elles n'ont pas été énoncées en séance. Une conséquence positive valide découle de la décision **dans ce contexte** (ex. « le provisioning peut démarrer »), pas des mérites de la techno. Rien discuté → « non évaluées en séance » dans chaque sous-section.
 - **Pas de placeholder dans la sortie finale.** Si une section ne peut pas être remplie, soit tu poses la question (phase 2), soit tu écris explicitement « non documenté en séance ».
 
 ## Règles anti-hallucination (consultation par l'IA)
 
 Ces ADR seront consultées en masse par un MCP. Pour éviter qu'une décision morte soit citée comme vivante :
-- Le **statut** est rempli sans ambiguïté. En cas de doute, statut = **Proposé** (jamais « Accepté » par défaut).
+- Le **statut** suit une règle mécanique : « Accepté » **uniquement** si le PV mentionne un vote, une validation formelle ou une approbation nominative. Un consensus informel sans vote ni PV validé → **Proposé**. En cas de doute → **Proposé**, toujours (jamais « Accepté » par défaut).
 - Si la décision en **remplace** une autre, les champs « Remplace » / « Remplacé par » sont renseignés des deux côtés quand l'info est disponible.
 - Les **mots-clés** sont concrets (techno, composant, domaine métier) pour que la recherche sémantique tombe juste.
 - Tu n'inventes jamais un ID, une date ou un lien d'ADR. Champ inconnu → tu demandes ou tu laisses un marqueur explicite à compléter par l'architecte.
