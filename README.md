@@ -1,192 +1,161 @@
-# Projet — Génération d'ADR assistée par IA
+# Génération d'ADR assistée par IA
 
-Document de passation. Lisible seul : il rappelle l'objectif, ce qui est
-déjà fait, les décisions à respecter et la suite à construire. Destiné à
-être repris par Claude Code.
+Ce dépôt permet à une équipe d'architecture d'entreprise de produire des
+**Architecture Decision Records (ADR)** de qualité, **en français**, directement
+depuis **VS Code avec GitHub Copilot** — à partir d'un procès-verbal de séance
+(PV) ou d'un simple sujet. La sortie est **un fichier markdown par décision**,
+rangé dans `adr/`.
 
 ---
 
 ## 1. Objectif
 
-Permettre à une équipe d'architecture d'entreprise de produire des
-**Architecture Decision Records (ADR)** :
+Produire des ADR :
 
-- **rapidement** — à partir d'un procès-verbal de séance (PV) ou d'un
-  échange de questions, sans repartir d'une page blanche ;
-- **de qualité** — du vrai contenu (contexte, alternatives écartées,
-  conséquences honnêtes), pas un gabarit rempli de placeholders ;
-- **lisibles par l'IA** — chaque ADR porte en tête un bloc auto-suffisant
-  pour qu'un assistant connecté (MCP/RAG) puisse en consulter des centaines
-  sans halluciner, notamment sans citer une décision périmée comme si elle
-  était en vigueur.
-
-Les ADR sont rédigées **en français**.
+- **rapidement** — à partir d'un PV ou d'un échange de questions, sans repartir
+  d'une page blanche ;
+- **de qualité** — du vrai contenu (contexte, alternatives écartées, conséquences
+  honnêtes), pas un gabarit rempli de placeholders ;
+- **lisibles par l'IA** — chaque ADR porte en tête un bloc auto-suffisant (statut,
+  périmètre, résumé) pour qu'un assistant connecté (MCP/RAG) puisse en consulter
+  des centaines sans halluciner, notamment sans citer une décision périmée comme
+  si elle était en vigueur.
 
 ---
 
-## 2. État actuel
+## 2. Comment ça marche
 
-Deux artefacts de référence font foi :
+Trois briques :
 
-- `template-adr-canonique.md` — la structure de référence d'une ADR.
-- `prompt-agent-adr.md` — le comportement de l'agent qui rédige une ADR.
-
-Outillage construit à ce jour :
-
-- **Phase 0** — dépôt initialisé ; dossier `adr/` créé avec `ADR-0001` (exemple
-  fictif exerçant noyau + modules pour valider le rendu du template).
-- **Phase 1 — agent rédacteur, exposé dans GitHub Copilot (VSCode).** C'est la
-  cible : l'architecte ouvre le dépôt dans VSCode et rédige son ADR de A à Z via
-  Copilot. Deux fichiers portent le comportement « questions d'abord » :
-  - `.github/copilot-instructions.md` — contexte permanent, appliqué
-    automatiquement à toutes les requêtes du chat du dépôt ;
-  - `.github/prompts/adr-new.prompt.md` — commande `/adr-new` dans Copilot Chat
-    (mode agent) qui pose les questions, s'arrête au point de validation, puis
-    écrit un seul `.md` canonique dans `adr/`.
-  Les deux s'appuient sur les fichiers sources de vérité ci-dessus
-  (`prompt-agent-adr.md`, `template-adr-canonique.md`).
-- **Phase 2** — linter `scripts/lint-adr.py` (Python, sans dépendance) :
-  vérifie la Carte d'identité et ses champs, le statut (liste fermée), le
-  résumé, les mots-clés, les sections du noyau, l'absence de placeholder et la
-  cohérence des liens « Remplace » / « Remplacé par ». Lancer :
-  `python3 scripts/lint-adr.py` (code de sortie 1 si une ADR est non conforme).
-
-Reste à construire : le multi-template par équipe (différé, voir section 7).
-La publication vers une plateforme type Confluence est **hors sujet** : la seule
-livraison attendue du dépôt est le fichier ADR markdown de qualité.
-
----
-
-## 3. Le pipeline cible
+- **Un agent « questions d'abord »** (`prompt-agent-adr.md`) : il lit le PV,
+  extrait ce qui est dit, repère les trous (surtout les alternatives écartées et
+  les conséquences négatives — presque jamais dans un PV), **pose les questions,
+  puis s'arrête**. Il ne rédige qu'une fois les trous comblés.
+- **Un template canonique** (`template-adr-canonique.md`) : un noyau de sections
+  toujours présent, dans le même ordre, plus des modules optionnels à emplacements
+  fixes. Toutes les ADR se ressemblent.
+- **Un linter** (`scripts/lint-adr.py`) : vérifie qu'une ADR respecte le format
+  avant publication.
 
 ```
-PV de séance ou questions
+PV de séance ou sujet
         │
         ▼
-Agent ADR  ── « questions d'abord » : extrait du PV, demande ce qui manque
+Agent ADR (Copilot)   ── « questions d'abord » : extrait, demande ce qui manque, s'arrête
+        │
+        ▼   (réponses de l'architecte)
+Rédaction Markdown    ── remplit le template canonique (noyau + modules)
         │
         ▼
-Rédaction en Markdown ── remplit le template canonique (noyau + modules)
+adr/ADR-XXXX-titre.md ── en-tête auto-suffisant + corps, sans placeholder
         │
         ▼
-Fichier .md unique ── en-tête auto-suffisant + corps
-        │
-        ▼
-(différé) Confluence ── collage manuel, consultation via MCP existant
+Linter                ── garde-fou de conformité
 ```
 
-Le **markdown est la source de vérité** de bout en bout. On ne cible
-Confluence qu'à la toute fin, et cette partie est **hors périmètre pour
-l'instant** (voir section 5).
+Le **markdown est la source de vérité** de bout en bout. La mise sur une plateforme
+(Confluence…) est **hors sujet** : la livraison du dépôt est le fichier ADR.
 
 ---
 
-## 4. Décisions prises (à ne pas défaire sans raison)
+## 3. Créer une ADR (VS Code + GitHub Copilot)
 
-Ces choix sont le fruit de la phase de cadrage. Les conserver sauf décision
-explicite.
+### Prérequis
 
-1. **Uniformité par un noyau figé + modules optionnels.** Le noyau d'une ADR
-   est toujours présent, dans le même ordre, avec les mêmes titres : une
-   personne d'une autre équipe doit retrouver Contexte → Décision →
-   Conséquences au même endroit. Les modules optionnels (Critères, Options,
-   Validation, Références) s'insèrent dans des **emplacements fixes** ; on les
-   inclut ou on les retire, jamais on ne les déplace ni ne les renomme.
+- VS Code avec **GitHub Copilot Chat**, connecté à GitHub.
+- Le **mode Agent** de Copilot autorisé (une organisation peut le désactiver ; si
+  `/adr-new` n'écrit aucun fichier, voir l'admin GitHub de l'organisation).
+- Le dépôt **ouvert comme dossier de travail** (File ▸ Open Folder). À l'ouverture,
+  `.github/copilot-instructions.md` est chargé automatiquement : le contexte ADR
+  s'applique alors à tout le chat, sans rien faire.
 
-2. **L'en-tête est le vrai levier « lisible par l'IA ».** La « Carte
-   d'identité » (statut, périmètre, remplace/remplacé-par) + le résumé en une
-   phrase forment un bloc auto-portant, analogue à la description d'un skill :
-   il dit *ce que fait* l'ADR et *si elle est encore valide* sans tout lire.
-   Le **statut** est le garde-fou anti-hallucination n°1.
+### Étapes
 
-3. **Qualité = « questions d'abord ».** L'agent ne rédige pas sur des
-   hypothèses inventées. Il extrait ce que dit la source, repère les trous
-   (surtout : alternatives écartées et conséquences négatives, presque jamais
-   dans un PV), puis **demande** avant de rédiger.
+1. Ouvrir **Copilot Chat** (Ctrl/Cmd+Alt+I) et vérifier que le mode est **Agent**
+   (menu déroulant en haut de la vue de chat).
+2. Lancer la commande : taper **`/adr-new`** dans le chat.
+   Variante avec argument : `/adr-new chemin/vers/le-PV.md`.
+3. **Fournir l'entrée** quand l'invite apparaît :
+   - le chemin d'un **PV** présent dans le dépôt, ou
+   - un **sujet** libre (ex. « Choix d'un bus d'événements pour le domaine
+     commandes »), ou
+   - **rien** → l'agent mène un entretien.
+4. **Répondre aux questions.** L'agent résume ce qu'il a compris (3 à 5 puces), pose
+   les questions pour combler les trous (en priorité alternatives écartées et
+   conséquences négatives), annonce les modules optionnels, **puis s'arrête**.
+   Répondre dans le chat, en plusieurs tours si besoin. Un point non tranché sera
+   écrit « non tranché en séance », jamais inventé.
+5. **Laisser rédiger.** Une fois les réponses obtenues, l'agent calcule le prochain
+   ID libre et crée `adr/ADR-XXXX-<titre>.md`.
+6. **Accepter le diff** (Keep / Accept) : en mode Agent, l'écriture du fichier passe
+   par une validation manuelle.
+7. **Vérifier** (recommandé) : lancer le linter (section 4).
 
-4. **Sortie : un seul fichier `.md`, sans placeholder.** Si une information
-   manque et n'est pas obtenue, l'agent l'écrit explicitement
-   (« non tranché en séance ») au lieu de l'inventer.
+### Bon à savoir
 
-5. **On part du template fourni.** Pas de support multi-template par équipe
-   pour l'instant (voir questions ouvertes).
-
----
-
-## 5. Périmètre
-
-**Dans le périmètre maintenant**
-- L'agent qui produit une ADR de qualité au format canonique.
-- Les garde-fous de qualité et anti-hallucination (validation des champs).
-
-**Hors périmètre** (à ne pas implémenter sans demande)
-- L'export / le formatage vers une plateforme (Confluence, etc.) : **hors sujet**.
-  La livraison du dépôt est le fichier ADR markdown ; sa mise en plateforme ne
-  nous concerne pas.
-- Le support de plusieurs templates d'équipe (mapping de champs canoniques
-  vers des templates existants). Envisagé, mais reporté : on standardise
-  d'abord, on harmonisera l'existant ensuite si la gouvernance suit.
-- La numérotation automatique inter-équipes et la gestion centralisée du
-  statut « superseded ».
+- L'agent **ne pose pas toujours les questions de lui-même** : ce comportement est
+  imposé par les fichiers `.github`. S'il fonce vers la rédaction malgré tout,
+  relancez-le en demandant explicitement de poser les questions d'abord, ou basculez
+  le prompt en `agent: plan` pour la phase d'interrogation.
+- **Sans Copilot** : `prompt-agent-adr.md` et `template-adr-canonique.md` sont du
+  markdown autonome. N'importe quel assistant capable de lire les fichiers du dépôt
+  peut reproduire le résultat ; Copilot est simplement la voie outillée.
 
 ---
 
-## 6. Fichiers du projet
+## 4. Vérifier la qualité (linter)
 
-| Fichier | Rôle | Stabilité |
-|---|---|---|
-| `template-adr-canonique.md` | Structure de référence d'une ADR (noyau + modules) | Source de vérité |
-| `prompt-agent-adr.md` | Comportement de l'agent rédacteur | Source de vérité |
-| `README.md` | Ce document de passation et de plan | Vivant |
+```
+python3 scripts/lint-adr.py                       # scanne tout le dossier adr/
+python3 scripts/lint-adr.py adr/ADR-0002-xxx.md   # un fichier précis
+```
 
----
+Code de sortie **1** si au moins une ADR est non conforme. Le linter vérifie :
 
-## 7. Feuille de route (par phases, avec points de validation)
+- la **Carte d'identité** et tous ses champs (ID, statut, date ISO, équipe,
+  mots-clés, liens) ;
+- le **statut** dans la liste fermée { Proposé, Accepté, Remplacé, Déprécié, Rejeté } ;
+- le **résumé** en une phrase et au moins un **mot-clé** ;
+- la présence des **sections du noyau** ;
+- l'absence de **placeholder** ou de commentaire de gabarit `<!-- -->` ;
+- la **réciprocité** des liens « Remplace » / « Remplacé par » entre ADR.
 
-Approche incrémentale : chaque phase se termine par un point de validation
-avant de passer à la suivante.
-
-### Phase 0 — Mise en place
-- Initialiser la structure du dépôt (proposition ci-dessous).
-- Intégrer les deux fichiers existants tels quels.
-- Créer un dossier `adr/` qui accueillera les ADR produites, avec un exemple
-  `ADR-0001` fictif pour valider le rendu du template.
-- **Validation :** le template se lit bien, l'exemple respecte le noyau.
-
-### Phase 1 — Agent utilisable
-- Transformer `prompt-agent-adr.md` en commande Claude Code (slash command
-  ou skill) qui : prend un PV en entrée, applique « questions d'abord »,
-  s'arrête au point de validation, puis génère un seul `.md` au format
-  canonique dans `adr/`.
-- **Validation :** sur un PV réel, l'agent pose les bonnes questions avant de
-  rédiger, et la sortie ne contient aucun placeholder.
-
-### Phase 2 — Garde-fous de qualité (linter d'ADR)
-- Écrire un script de validation léger qui, pour chaque ADR de `adr/`,
-  vérifie :
-  - présence de la Carte d'identité et de tous ses champs ;
-  - statut ∈ liste fermée { Proposé, Accepté, Remplacé, Déprécié, Rejeté } ;
-  - présence du résumé en une phrase et d'au moins un mot-clé ;
-  - présence des sections du noyau ;
-  - cohérence des liens « Remplace » / « Remplacé par » entre ADR.
-- **Validation :** le linter détecte une ADR volontairement incomplète.
-
-### Phase 3 — différé : export Confluence
-- Décliner le `.md` en format collable sur Confluence. Dépend du choix
-  Cloud vs Data Center (non tranché).
-
-### Phase 4 — différé : multi-template par équipe
-- Définir un dictionnaire de champs canoniques et un mécanisme de mapping
-  pour que l'agent produise dans le template d'une équipe tout en garantissant
-  la présence des champs de l'en-tête.
+Aucune dépendance (bibliothèque standard Python). Idéal à brancher en pre-commit
+ou en CI.
 
 ---
 
-## 8. Structure du dépôt
+## 5. Le format canonique
+
+Référence complète : `template-adr-canonique.md`. En résumé :
+
+**Noyau — toujours présent, dans cet ordre, avec ces titres exacts**
+1. Carte d'identité — 2. Résumé de la décision — 3. Contexte et problème —
+4. Décision — 5. Conséquences.
+
+**Modules optionnels — emplacements fixes**
+- « Critères de décision » et « Options considérées » entre le Contexte (3) et la
+  Décision (4) ;
+- « Validation et suivi » et « Références » après les Conséquences (5).
+
+On les inclut ou on les retire selon le poids de la décision, mais **on ne les
+déplace ni ne les renomme jamais**.
+
+**L'en-tête est le levier « lisible par l'IA »** : la Carte d'identité (statut,
+périmètre, remplace / remplacé-par) + le résumé en une phrase forment un bloc
+auto-portant qui dit *ce que fait* l'ADR et *si elle est encore valide*, sans tout
+lire. Le **statut** est le garde-fou anti-hallucination n°1 (en cas de doute →
+Proposé).
+
+Exemple complet et conforme : `adr/ADR-0001-exemple.md`.
+
+---
+
+## 6. Structure du dépôt
 
 ```
 .
-├── README.md                     # ce document de passation et de plan
+├── README.md                     # ce document
 ├── template-adr-canonique.md     # template de référence (source de vérité)
 ├── prompt-agent-adr.md           # comportement de l'agent (source de vérité)
 ├── adr/                          # les ADR produites
@@ -196,66 +165,112 @@ avant de passer à la suivante.
 │   └── prompts/
 │       └── adr-new.prompt.md     # commande /adr-new dans Copilot Chat
 └── scripts/
-    └── lint-adr.py               # linter d'ADR (phase 2)
+    └── lint-adr.py               # linter d'ADR
 ```
 
-Linter en Python (bibliothèque standard, aucune dépendance) — c'est de la
-lecture de markdown.
+---
+
+## 7. Décisions de conception (à ne pas défaire sans raison)
+
+1. **Uniformité par un noyau figé + modules optionnels.** Une personne d'une autre
+   équipe doit retrouver Contexte → Décision → Conséquences au même endroit. Les
+   modules s'insèrent dans des emplacements fixes ; on ne les déplace ni ne les
+   renomme jamais.
+2. **L'en-tête est le vrai levier « lisible par l'IA ».** La Carte d'identité + le
+   résumé en une phrase forment un bloc auto-portant, analogue à la description d'un
+   skill. Le **statut** est le garde-fou anti-hallucination n°1.
+3. **Qualité = « questions d'abord ».** L'agent ne rédige pas sur des hypothèses
+   inventées : il extrait, repère les trous (alternatives écartées, conséquences
+   négatives), puis **demande** avant de rédiger.
+4. **Sortie : un seul fichier `.md`, sans placeholder.** Une information manquante et
+   non obtenue est écrite explicitement (« non tranché en séance »), jamais inventée.
+5. **Un template unique** pour l'instant (pas de multi-template par équipe — voir
+   questions ouvertes).
 
 ---
 
-## 9. Questions ouvertes
+## 8. Périmètre
 
-- **Format de l'en-tête** : petit tableau (actuel) ou lignes étiquetées
-  simples ? Facile à basculer ; le contenu des champs ne change pas.
-- **Liste des statuts** : la liste fermée actuelle convient-elle, ou faut-il
-  un état « En cours de revue » distinct de « Proposé » ?
-- **Une ou plusieurs équipes** : confirme si l'on reste sur un template unique
-  (hypothèse actuelle) ou si la phase 4 deviendra nécessaire.
+**Dans le périmètre**
+- L'agent qui produit une ADR de qualité au format canonique.
+- Les garde-fous de qualité et anti-hallucination (linter, validation des champs).
 
----
-
-## 10. Pour démarrer (Claude Code)
-
-1. Lire `template-adr-canonique.md` et `prompt-agent-adr.md` : ce sont les
-   spécifications de comportement, pas seulement des exemples.
-2. Exécuter la **phase 0**, puis s'arrêter pour validation avant la phase 1.
-3. Ne rien implémenter de la section « hors périmètre » sans demande explicite.
-4. Respecter les décisions de la section 4 ; toute remise en cause doit être
-   signalée plutôt que faite silencieusement.
+**Hors périmètre** (à ne pas implémenter sans demande)
+- L'export / le formatage vers une plateforme (Confluence, etc.) : **hors sujet**.
+  La livraison du dépôt est le fichier ADR markdown ; sa mise en plateforme ne nous
+  concerne pas.
+- Le support de plusieurs templates d'équipe. Envisagé, mais reporté : on
+  standardise d'abord, on harmonisera l'existant ensuite si la gouvernance suit.
+- La numérotation automatique inter-équipes et la gestion centralisée du statut
+  « superseded ».
 
 ---
 
-## 11. Références — dépôts d'inspiration
+## 9. État et suite
 
-Repos évalués pendant le cadrage. Le template et le prompt s'en inspirent
-mais ne les copient pas ; ils restent utiles comme référence d'implémentation.
+**Construit** — exemple + format de référence ; agent rédacteur exposé dans Copilot
+(`/adr-new`) ; linter de conformité.
+
+**Différé / hors sujet** — multi-template par équipe (différé) ; export Confluence
+(hors sujet).
+
+**Pistes possibles** — brancher le linter en pre-commit / CI ; trancher les
+questions ouvertes ci-dessous.
+
+---
+
+## 10. Questions ouvertes
+
+- **Format de l'en-tête** : petit tableau (actuel) ou lignes étiquetées simples ?
+  Facile à basculer ; le contenu des champs ne change pas.
+- **Liste des statuts** : la liste fermée actuelle convient-elle, ou faut-il un état
+  « En cours de revue » distinct de « Proposé » ?
+- **Une ou plusieurs équipes** : reste-t-on sur un template unique (hypothèse
+  actuelle) ou le multi-template deviendra-t-il nécessaire ?
+
+---
+
+## 11. Faire évoluer le format
+
+Le **comportement** de l'agent et la **structure** des ADR sont du markdown, dans
+deux fichiers qui font foi :
+
+- `template-adr-canonique.md` — la structure (noyau + modules) ;
+- `prompt-agent-adr.md` — le comportement (4 phases, qualité, anti-hallucination).
+
+Toute évolution du format se fait dans ces deux fichiers. Pensez à répercuter le
+changement dans `scripts/lint-adr.py` (les vérifications) et, si besoin, dans les
+fichiers `.github/`. Lancez le linter après modification.
+
+---
+
+## 12. Références — dépôts d'inspiration
+
+Repos évalués pendant le cadrage. Le template et le prompt s'en inspirent mais ne
+les copient pas ; ils restent utiles comme référence d'implémentation.
 
 **Retenus comme inspiration**
 
 - `tomerariel/ai-adr` — https://github.com/tomerariel/ai-adr
-  Plugin Claude Code : agent « questions d'abord » (contexte, alternatives,
-  compromis) avant rédaction, sortie au format MADR, templates default /
-  lightweight. **Meilleure référence pour la phase 1** (l'agent comme commande
-  Claude Code). NB : le README du repo affiche `owner/ai-adr` dans l'install,
-  c'est un placeholder — utiliser `tomerariel/ai-adr`.
+  Agent « questions d'abord » (contexte, alternatives, compromis) avant rédaction,
+  sortie au format MADR, templates default / lightweight. **Meilleure référence**
+  pour l'agent rédacteur (questions d'abord, puis génération).
 
 - `macromania/adr-agent` — https://github.com/macromania/adr-agent
-  Même logique de questions de clarification, plus un pattern d'ancrage RAG
-  (vector store) sur un référentiel. Utile si on veut, plus tard, ancrer le
-  contenu sur un cadre interne.
+  Même logique de questions de clarification, plus un pattern d'ancrage RAG (vector
+  store) sur un référentiel. Utile si on veut, plus tard, ancrer le contenu sur un
+  cadre interne.
 
 - `me2resh/agent-decision-record` — https://github.com/me2resh/agent-decision-record
-  On en a repris **une seule idée** : le résumé de décision en une phrase
-  (« dans le contexte de X… nous avons décidé Z… en acceptant V »), réutilisé
-  dans l'en-tête. Son frontmatter YAML n'a pas été retenu (inutile hors d'un
-  dépôt de fichiers).
+  On en a repris **une seule idée** : le résumé de décision en une phrase (« dans le
+  contexte de X… nous avons décidé Z… en acceptant V »), réutilisé dans l'en-tête.
+  Son frontmatter YAML n'a pas été retenu.
 
 **Écartés (mentionnés pour mémoire)**
 
 - `joshrotenberg/adrs` — https://github.com/joshrotenberg/adrs
-  CLI Rust avec serveur MCP intégré et export JSON. Écarté : la consultation
-  par l'IA passe déjà par le MCP Confluence existant, pas besoin d'un MCP dédié.
+  CLI Rust avec serveur MCP intégré et export JSON. Écarté : la consultation par
+  l'IA passe déjà par le MCP Confluence existant, pas besoin d'un MCP dédié.
 
 - `zircote/git-adr` — https://github.com/zircote/git-adr
   ADR stockées dans les git notes, rédaction assistée par IA annoncée mais non
