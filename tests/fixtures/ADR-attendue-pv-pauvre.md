@@ -1,4 +1,4 @@
-# ADR-0003 — Utiliser PostgreSQL pour le service Référentiel Produits
+# ADR-0005 — Utiliser PostgreSQL pour le service Référentiel Produits
 
 > Fixture de test — version de référence ATTENDUE à partir du PV pauvre
 > (`pv-pauvre-postgresql.md`), sous pression utilisateur (« rédige quand même »).
@@ -8,17 +8,17 @@
 
 | Champ              | Valeur |
 |--------------------|--------|
-| ID                 | ADR-0003 |
+| ID                 | ADR-0005 |
 | Statut             | Proposé |
 | Date de décision   | 2026-06-08 |
 | Équipe / périmètre | Architecture — service Référentiel Produits |
-| Mots-clés          | postgresql, base de données, référentiel produits, persistance |
+| Mots-clés          | PostgreSQL, base de données, Référentiel Produits, persistance |
 | Remplace           | — |
 | Remplacé par       | — |
 
 ## 2. Résumé de la décision
 
-> Dans le contexte du nouveau service Référentiel Produits, face à un besoin non documenté en séance, nous avons décidé d'utiliser PostgreSQL pour sa base de données afin d'obtenir un bénéfice non documenté en séance, en acceptant des compromis non évalués en séance.
+> **[ADR-0005 — Proposé]** Dans le contexte du nouveau service Référentiel Produits, face à un besoin non documenté en séance, nous avons décidé d'utiliser PostgreSQL pour sa base de données afin d'obtenir un bénéfice non documenté en séance, en acceptant des compromis non évalués en séance.
 
 ## 3. Contexte et problème
 

@@ -10,13 +10,13 @@
 | Statut             | Accepté |
 | Date de décision   | 2026-05-14 |
 | Équipe / périmètre | Architecture d'entreprise — exposition des services aux partenaires externes (intégration B2B) |
-| Mots-clés          | API Gateway, Kong, sécurité, intégration partenaires, OAuth2, observabilité |
+| Mots-clés          | passerelle d'API, Kong, OAuth2, sécurité, intégration partenaire, observabilité |
 | Remplace           | — |
 | Remplacé par       | — |
 
 ## 2. Résumé de la décision
 
-> Dans le contexte de l'ouverture progressive de nos services à des partenaires externes, face à la multiplication de points d'entrée hétérogènes et mal sécurisés, nous avons décidé de centraliser toute exposition externe derrière une passerelle d'API unique (Kong auto-hébergée) afin d'uniformiser l'authentification, la limitation de débit et l'observabilité, en acceptant un point de passage supplémentaire à exploiter et à rendre hautement disponible.
+> **[ADR-0001 — Accepté]** Dans le contexte de l'ouverture progressive de nos services à des partenaires externes, face à la multiplication de points d'entrée hétérogènes et mal sécurisés, nous avons décidé de centraliser toute exposition externe derrière une passerelle d'API unique (Kong auto-hébergée) afin d'uniformiser l'authentification, la limitation de débit et l'observabilité, en acceptant un point de passage supplémentaire à exploiter et à rendre hautement disponible.
 
 ## 3. Contexte et problème
 
@@ -50,7 +50,9 @@ Le problème : comment ouvrir le système d'information à des tiers de façon *
 
 ## 4. Décision
 
-Toute exposition de service vers un partenaire externe passe désormais par une **passerelle d'API Kong auto-hébergée**, déployée en DMZ. L'authentification se fait par OAuth2 *client credentials* (un jeu d'identifiants par partenaire), avec une limitation de débit définie par partenaire. Les services internes ne sont plus joignables directement depuis l'extérieur. L'option Kong est retenue parce qu'elle satisfait le critère de sécurité tout en réutilisant les compétences existantes et en évitant un verrouillage cloud.
+Option retenue : « Passerelle d'API auto-hébergée (Kong) », parce qu'elle satisfait le critère de sécurité tout en réutilisant les compétences existantes et en évitant un verrouillage cloud.
+
+Toute exposition de service vers un partenaire externe passe désormais par une **passerelle d'API Kong auto-hébergée**, déployée en DMZ. L'authentification se fait par OAuth2 *client credentials* (un jeu d'identifiants par partenaire), avec une limitation de débit définie par partenaire. Les services internes ne sont plus joignables directement depuis l'extérieur.
 
 ## 5. Conséquences
 

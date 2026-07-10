@@ -41,9 +41,14 @@
 |--------------------|--------|
 | ID                 | ADR-XXXX |
 | Statut             | Proposé \| Accepté \| Remplacé \| Déprécié \| Rejeté |
-| Date de décision   | AAAA-MM-JJ |
+| Date de décision   | AAAA-MM-JJ \| — |
 | Équipe / périmètre | [équipe propriétaire + domaine concerné] |
 | Mots-clés          | [3 à 6 termes pour la recherche : techno, domaine métier, composant] |
+
+<!-- Date de décision : la date de la séance (AAAA-MM-JJ). Si la     -->
+<!-- source n'est pas datée, écrire « — » — ne JAMAIS inventer une   -->
+<!-- date. Mots-clés : en minuscules et en français, sauf les noms   -->
+<!-- propres de produits (PostgreSQL, Kong…) ; au singulier.         -->
 | Remplace           | — \| ADR-XXXX |
 | Remplacé par       | — \| ADR-XXXX |
 
@@ -52,8 +57,13 @@
 <!-- UNE phrase, auto-portante. C'est ce qu'un RAG remonte et ce   -->
 <!-- qu'un lecteur pressé lit. Doit contenir la décision ET le     -->
 <!-- pourquoi, pas seulement le quoi. Suivre le gabarit :          -->
+<!--                                                               -->
+<!-- Le préfixe **[ADR-XXXX — Statut]** est OBLIGATOIRE : il porte -->
+<!-- l'identité et la validité de la décision dans le bloc même    -->
+<!-- qu'un retriever remonte. Il reprend exactement l'ID et le     -->
+<!-- Statut de la Carte d'identité (le linter vérifie).            -->
 
-> Dans le contexte de **[situation]**, face à **[problème / contrainte]**, nous avons décidé **[la décision]** afin d'obtenir **[bénéfice visé]**, en acceptant **[le principal compromis]**.
+> **[ADR-XXXX — Statut]** Dans le contexte de **[situation]**, face à **[problème / contrainte]**, nous avons décidé **[la décision]** afin d'obtenir **[bénéfice visé]**, en acceptant **[le principal compromis]**.
 
 ## 3. Contexte et problème
 
@@ -94,8 +104,13 @@
 ## 4. Décision
 
 <!-- Le QUOI, sans ambiguïté. Ce qu'on fait concrètement, à        -->
-<!-- l'impératif ou au présent. Si une option a été retenue        -->
-<!-- ci-dessus, dire laquelle et la raison déterminante.           -->
+<!-- l'impératif ou au présent.                                    -->
+<!--                                                               -->
+<!-- Si le module « Options considérées » est présent, la section  -->
+<!-- COMMENCE par la phrase type (vérifiée par le linter) :        -->
+<!--   Option retenue : « [nom] », parce que [raison déterminante].-->
+<!-- La justification est ainsi forcée dans la structure, pas      -->
+<!-- laissée au hasard de la rédaction.                            -->
 
 [À remplir]
 

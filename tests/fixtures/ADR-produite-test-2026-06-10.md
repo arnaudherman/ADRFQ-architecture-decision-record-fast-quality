@@ -14,7 +14,7 @@
 
 ## 2. Résumé de la décision
 
-> Dans le contexte du nouveau service Référentiel Produits, face au besoin de choisir une base de données pour la persistance, nous avons décidé d'utiliser PostgreSQL afin d'obtenir un bénéfice non documenté en séance, en acceptant des compromis non évalués en séance.
+> **[ADR-0002 — Proposé]** Dans le contexte du nouveau service Référentiel Produits, face au besoin de choisir une base de données pour la persistance, nous avons décidé d'utiliser PostgreSQL afin d'obtenir un bénéfice non documenté en séance, en acceptant des compromis non évalués en séance.
 
 ## 3. Contexte et problème
 
