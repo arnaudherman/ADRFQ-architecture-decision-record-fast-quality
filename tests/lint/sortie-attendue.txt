@@ -1,0 +1,27 @@
+  ERREUR tests/lint/temoin/ADR-0002-temoin-cassee.md
+          ✗ [noyau] sections du noyau dans le désordre — aide : rétablir l'ordre canonique 1 → 5
+          ✗ [module] module « Références » hors de son emplacement fixe — aide : le placer après « 5. Conséquences »
+          ✗ [titre] l'ID du titre H1 (« ADR-0009 ») ne correspond pas à la Carte d'identité (« ADR-0002 »)
+          ✗ [Statut] « Remplacé par » est renseigné mais le statut est « Accepté » — aide : une ADR remplacée passe au statut « Remplacé » (ou « Déprécié »)
+          ✗ [Date de décision] date inexistante : « 2026-13-45 »
+          ✗ [Équipe / périmètre] valeur vide
+          ✗ [Résumé] préfixe de validité manquant — aide : commencer le résumé par « **[ADR-XXXX — Statut]** » (mêmes valeurs que la Carte d'identité)
+          ✗ [Résumé] gabarit incomplet — marqueurs absents : « dans le contexte », « face à », « nous avons décidé », « afin de », « en acceptant »
+          ✗ [Résumé] formule vague dans le résumé (« divers ») — préciser ou retirer
+          ✗ [module] module optionnel vide, à retirer : « Références »
+          ✗ [noyau] section du noyau vide : « 4. Décision »
+          ✗ [placeholder] commentaire de gabarit résiduel « <!-- … --> »
+          ✗ [placeholder] placeholder non rempli : « [À remplir] » — aide : pour un crochet légitime, utiliser un lien « [texte](url) » ou « [texte][ref] »
+          ✗ [placeholder] marqueur de gabarit résiduel : « TODO »
+          ✗ [ID] ID dupliqué : « ADR-0002 » aussi utilisé par tests/lint/temoin/ADR-0002-temoin-doublon.md
+          ✗ [Remplacé par] « ADR-9999 » introuvable dans le dossier scanné — aide : référence pendante (ADR inexistante ou ID erroné)
+          ⚠ [Mots-clés] 1 mot(s)-clé(s) — le template en recommande 3 à 6
+          ⚠ [Résumé] plusieurs phrases détectées — le résumé doit tenir en UNE phrase auto-portante
+          ⚠ [référence] « ADR-0009 » cité dans le corps mais introuvable dans le dossier scanné
+  ERREUR tests/lint/temoin/ADR-0002-temoin-doublon.md
+          ✗ [Statut] statut « Remplacé » sans « Remplacé par » renseigné — aide : indiquer l'ADR remplaçante
+          ✗ [ID] ID dupliqué : « ADR-0002 » déjà utilisé par tests/lint/temoin/ADR-0002-temoin-cassee.md
+  OK    tests/lint/temoin/ADR-0003-temoin-conforme.md
+
+Résumé : 1/3 conforme(s), 2 en erreur (3 fichier(s) scanné(s)).
+Corpus par statut : 1 Accepté, 1 Remplacé, 1 Proposé.
