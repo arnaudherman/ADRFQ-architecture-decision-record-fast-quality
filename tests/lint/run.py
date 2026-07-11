@@ -46,12 +46,13 @@ def main():
         for ligne in _diff(attendu, res.stdout):
             print(f"    {ligne}")
 
-    # 2. Corpus réel conforme (adr/ d'un côté ; chaque fixture séparément —
-    # les fixtures ne font pas partie du corpus, leurs ID ne s'y confrontent pas)
+    # 2. adr/ livré vide → « dossier vide » = code 0 (état initial légitime, pas un faux vert),
+    # puis chaque fixture séparément (dont l'exemple conforme) : leurs ID ne se confrontent pas.
     res = lancer("adr")
     if res.returncode != 0:
-        echecs.append(f"corpus adr/ : code de sortie {res.returncode} (attendu 0)\n{res.stdout}")
-    for fixture in ("tests/fixtures/ADR-attendue-pv-pauvre.md",
+        echecs.append(f"adr/ vide : code de sortie {res.returncode} (attendu 0)\n{res.stdout}")
+    for fixture in ("tests/fixtures/ADR-0001-exemple.md",
+                    "tests/fixtures/ADR-attendue-pv-pauvre.md",
                     "tests/fixtures/ADR-produite-test-2026-06-10.md",
                     "tests/fixtures/ADR-attendue-entretien.md"):
         res = lancer(fixture)

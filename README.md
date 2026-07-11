@@ -183,7 +183,7 @@ Règles :
 
 ```
 python3 scripts/lint-adr.py                        # défaut : le dossier adr/ du dépôt
-python3 scripts/lint-adr.py adr/ADR-0002-xxx.md    # un fichier précis
+python3 scripts/lint-adr.py adr/ADR-0001-votre-decision.md   # un fichier précis
 python3 scripts/lint-adr.py --strict adr           # les avertissements deviennent bloquants
 python3 scripts/lint-adr.py --index adr            # régénère adr/INDEX.md
 python3 scripts/lint-adr.py --check-index adr      # vérifie la fraîcheur de l'index
@@ -247,9 +247,9 @@ auto-portant. Le résumé **commence par le préfixe de validité**
 *quelle* décision il lit et *si elle est encore valide*. Le **statut** est le
 garde-fou anti-hallucination n°1 (en cas de doute → Proposé).
 
-Exemples conformes : `adr/ADR-0001-exemple.md` (fictif, valide le rendu) et les
-ADR réelles du dépôt (ADR-0002 à 0004, qui documentent ses propres choix de
-conception).
+Exemple conforme (fictif, sert à voir le rendu et sert de fixture au linter) :
+`tests/fixtures/ADR-0001-exemple.md`. **Le dossier `adr/` est livré vide** — c'est là
+que vont *vos* vraies ADR, à partir de `ADR-0001`.
 
 ---
 
@@ -291,10 +291,8 @@ conception).
 ├── README.md                     # ce document
 ├── template-adr-canonique.md     # template de référence (source de vérité)
 ├── prompt-agent-adr.md           # comportement de l'agent (source de vérité)
-├── adr/                          # les ADR produites
-│   ├── INDEX.md                  # index généré (ID, titre, statut) — ne pas éditer
-│   ├── ADR-0001-exemple.md       # exemple fictif (valide le rendu)
-│   └── ADR-0002..0004-*.md       # décisions réelles du dépôt (dogfooding)
+├── adr/                          # VOS ADR (livré vide ; à remplir via /adr-new)
+│   └── INDEX.md                  # index généré (ID, titre, statut) — ne pas éditer
 ├── .github/
 │   ├── copilot-instructions.md   # contexte permanent, auto-appliqué
 │   ├── instructions/
@@ -309,7 +307,7 @@ conception).
 │   └── lint-adr.py               # linter d'ADR (+ générateur d'index)
 ├── tests/
 │   ├── README.md                 # protocoles de non-régression (rédaction, consultation, linter)
-│   ├── fixtures/                 # PV pauvre, ADR de référence, paire de consultation
+│   ├── fixtures/                 # PV pauvre, ADR de référence, exemple conforme, consultation
 │   └── lint/                     # témoin cassé + snapshot + runner (tests/lint/run.py)
 └── .pre-commit-hooks.yaml        # hooks exposés aux dépôts consommateurs
 ```
@@ -318,9 +316,7 @@ conception).
 
 ## 9. Décisions de conception (à ne pas défaire sans raison)
 
-Les choix structurants du dépôt sont documentés **en ADR, dans `adr/`** (dogfooding) :
-statuts fermés en français (ADR-0002), linter Python stdlib (ADR-0003), tableau
-markdown plutôt que frontmatter (ADR-0004). En complément :
+Neuf choix structurants, à ne pas défaire sans comprendre le pourquoi :
 
 1. **Uniformité par un noyau figé + modules optionnels.** Une personne d'une autre
    équipe doit retrouver Contexte → Décision → Conséquences au même endroit. Les
@@ -338,6 +334,14 @@ markdown plutôt que frontmatter (ADR-0004). En complément :
    questions ouvertes).
 6. **Le linter signale, il ne réécrit pas.** Pas d'autofix sur le contenu des ADR ;
    c'est l'agent (sous validation humaine) qui corrige.
+7. **Statuts fermés en français** { Proposé, Accepté, Remplacé, Déprécié, Rejeté }.
+   Un vocabulaire fermé est vérifiable mécaniquement par le linter ; un statut en texte
+   libre (approche MADR) ne l'est pas. C'est le garde-fou anti-hallucination n°1.
+8. **Linter en Python, bibliothèque standard seule.** Il doit tourner partout (poste,
+   pre-commit, CI) sans rien installer ; on assume un parsing markdown par regex maison.
+9. **Métadonnées dans un tableau markdown** (la Carte d'identité), pas un frontmatter
+   YAML : une source de vérité unique, lisible dans tout rendu, sans imposer YAML aux
+   rédacteurs. Un frontmatter éventuel serait *dérivé*, jamais une seconde source.
 
 ---
 
@@ -382,8 +386,7 @@ concrétise ; trancher les questions ouvertes ci-dessous.
 ## 12. Questions ouvertes
 
 - **Liste des statuts** : la liste fermée actuelle convient-elle, ou faut-il un état
-  « En cours de revue » distinct de « Proposé » ? (condition de réouverture notée
-  dans ADR-0002.)
+  « En cours de revue » distinct de « Proposé » ?
 - **Une ou plusieurs équipes** : reste-t-on sur un template unique (hypothèse
   actuelle) ou le multi-template deviendra-t-il nécessaire ?
 
@@ -431,7 +434,7 @@ les copient pas ; ils restent utiles comme référence d'implémentation.
 - `me2resh/agent-decision-record` — https://github.com/me2resh/agent-decision-record
   On en a repris **une seule idée** : le résumé de décision en une phrase (« dans le
   contexte de X… nous avons décidé Z… en acceptant V »), réutilisé dans l'en-tête.
-  Son frontmatter YAML n'a pas été retenu (choix documenté dans ADR-0004).
+  Son frontmatter YAML n'a pas été retenu (voir § 9, choix de conception n°9).
 
 **Écartés (mentionnés pour mémoire)**
 

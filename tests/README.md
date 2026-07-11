@@ -23,13 +23,14 @@ modules optionnels vides).
 - `fixtures/pv-pauvre-postgresql.md` — un PV minimal : une décision (PostgreSQL),
   aucune alternative, aucun critère, aucune conséquence discutée.
 - `fixtures/ADR-attendue-pv-pauvre.md` — l'ADR **de référence** que l'agent devrait
-  produire à partir de ce PV. Son ID (`ADR-0005`) correspond au prochain numéro libre
-  pour le corpus de référence du dépôt (`adr/` = ADR-0001 à ADR-0004) : si le corpus a
-  bougé, l'ID produit différera — c'est normal, seul le **contenu** se compare.
+  produire à partir de ce PV. Son ID est **illustratif** : l'ID réel dépend de l'état du
+  corpus `adr/` au moment du test (livré vide → l'agent produirait `ADR-0001`). Seul le
+  **contenu** se compare, pas l'ID.
 - `fixtures/ADR-produite-test-2026-06-10.md` — la sortie **réelle** de l'agent au test
-  du 2026-06-10, conservée comme exemple conforme (« variation acceptable » ci-dessous).
-  Son ID `ADR-0002` est celui de l'époque (corpus = {ADR-0001} seul) ; le fichier est
-  adapté au format courant à chaque évolution du template.
+  du 2026-06-10, conservée comme exemple conforme (« variation acceptable » ci-dessous) ;
+  adaptée au format courant à chaque évolution du template.
+- `fixtures/ADR-0001-exemple.md` — l'**exemple canonique** (fictif, passerelle Kong) ;
+  sert de contrôle positif au linter (une ADR bien formée doit passer sans erreur).
 
 ### Protocole (dans VS Code + Copilot)
 

@@ -598,8 +598,11 @@ def main():
         print(f"Erreur d'environnement : {len(introuvables)} chemin(s) introuvable(s).", file=sys.stderr)
         return 2
     if not fichiers:
-        print("Erreur d'environnement : aucun fichier .md à analyser (un lint qui n'a rien vu ne vaut pas un lint vert).", file=sys.stderr)
-        return 2
+        # Dossier existant mais sans ADR = état initial légitime (le corpus démarre vide),
+        # pas une erreur. Un chemin introuvable ou un cwd erroné est déjà traité ci-dessus → 2 :
+        # on ne réintroduit pas le « faux vert », on reconnaît juste un corpus encore vide.
+        print("0 ADR à analyser (dossier vide) — rien à vérifier.")
+        return 0
 
     index = {}
     rapports = []
