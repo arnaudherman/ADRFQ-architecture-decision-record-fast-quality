@@ -74,9 +74,15 @@ résumé. Traite **la parole de l'architecte comme une source de plein droit**.
   - `conflit de sources` (S2 dit X, l'ADR-00YY dit Y, l'archi n'a pas tranché) ;
   - `information absente` (aucune source ne couvre un point du plancher) ;
   - `inférence à confirmer` (tu combles un trou par déduction évidente).
-- **Alerte** : une contradiction avec une ADR **« Accepté »** de l'INDEX est signalée — elle
-  est candidate à `/adr-remplace` en aval. Surveille aussi l'**auto-contradiction d'un même
-  PV** (un accord affiché mais une objection consignée non traitée → statut « Proposé »).
+- **Alerte** : une contradiction avec une ADR **« Accepté »** de l'INDEX est **remontée à
+  l'architecte**, sans présumer l'issue. Trois issues possibles, c'est lui qui tranche :
+  **remplacement** (la nouvelle décision annule l'ancienne → `/adr-remplace` en aval),
+  **exception / amendement** (l'ancienne reste la règle, la nouvelle est un cas cadré → on la
+  cite dans « Références », on ne la remplace **pas**), ou **révision** de la nouvelle.
+  **Ne présume jamais `/adr-remplace`** : remplacer une règle « par défaut » à cause d'une
+  exception est une faute (voir « amender sans remplacer » dans prompt-agent-adr.md). Surveille
+  aussi l'**auto-contradiction d'un même PV** (un accord affiché mais une objection consignée
+  non traitée → statut « Proposé »).
 
 ### Phase 3 — Point d'arrêt UNIQUE — IMPÉRATIF
 
