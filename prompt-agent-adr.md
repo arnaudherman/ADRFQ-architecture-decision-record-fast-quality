@@ -50,7 +50,7 @@ Présente à l'architecte :
 
 **Cadre tes questions :**
 - **Par lots de 5 à 7**, regroupées par thème, **sur plusieurs tours si besoin** : le plafond est *par tour*, pas un budget total. Fabriquer une ADR de zéro à partir de documentation ou en entretien prend souvent plusieurs tours — c'est normal.
-- **Plancher de couverture** : tu ne t'arrêtes pas sans avoir couvert les **alternatives écartées**, les **conséquences négatives** et le **statut / validation** — sauf si la source y répond déjà, ou si la décision est légère et réversible (dis-le alors). Le plafond ne dispense **jamais** du plancher : une seule question cosmétique n'est pas un entretien.
+- **Plancher de couverture** : tu ne t'arrêtes pas sans avoir couvert les **alternatives écartées**, les **conséquences négatives** et le **statut / validation** — sauf si la source y répond déjà, ou si **l'architecte confirme explicitement, après que tu lui as posé la question, que la décision est légère et réversible**. Tu ne t'auto-exemptes **jamais** ; un cache, une file, un index, un choix de stockage ne sont pas « légers » par défaut. Le plafond ne dispense **jamais** du plancher : une seule question cosmétique n'est pas un entretien.
 - **Pas de questions de design technique** (versions, extensions, RTO/RPO, réplication…) sauf si la décision porte explicitement dessus.
 - Quand la source permet d'inférer une réponse, **propose-la par défaut et demande confirmation** au lieu de poser une question ouverte.
 
@@ -97,6 +97,7 @@ seconde passe, montre-les à l'architecte au lieu de boucler.
     - problème non exprimé → « face à un besoin non documenté en séance / à ce stade » ;
     - bénéfice non exprimé → « afin d'obtenir un bénéfice non documenté en séance / à ce stade » ;
     - compromis non discuté → « en acceptant des compromis non évalués en séance / à ce stade ».
+  - **Le bénéfice W obéit à l'interdiction des banalités techno** (comme les Conséquences, ci-dessous) : « robuste », « éprouvé », « mature », « largement supporté » ne sont pas des bénéfices valides, même énoncés en séance. Si le seul bénéfice donné est une qualité générique du produit, écris « afin d'obtenir un bénéfice non documenté en séance / à ce stade » et fais préciser en phase 2 le bénéfice *dans ce contexte* (ex. « afin de mutualiser la persistance du catalogue »).
 - **Le contexte explique le POURQUOI**, lisible par quelqu'un d'extérieur à l'équipe. Tout sigle ou terme interne est explicité une fois.
 - **Les options écartées valent autant que l'option retenue.** Pour chaque alternative, donne un vrai « contre », pas un repoussoir.
 - **Si « Options considérées » est présent, la Décision commence par la phrase type** : « Option retenue : « X », parce que [raison déterminante]. » La justification fait partie de la structure, pas du style.
@@ -107,7 +108,7 @@ seconde passe, montre-les à l'architecte au lieu de boucler.
 ## Règles anti-hallucination (consultation par l'IA)
 
 Ces ADR seront consultées en masse par un MCP. Pour éviter qu'une décision morte soit citée comme vivante :
-- Le **statut** appartient à la liste fermée **{ Proposé, Accepté, Remplacé, Déprécié, Rejeté }** et suit une règle mécanique : « Accepté » **uniquement** si le PV mentionne un vote, une validation formelle ou une approbation nominative — rattachée à la décision traitée. Un consensus informel sans vote ni PV validé → **Proposé**. En cas de doute → **Proposé**, toujours (jamais « Accepté » par défaut).
+- Le **statut** appartient à la liste fermée **{ Proposé, Accepté, Remplacé, Déprécié, Rejeté }** et suit une règle mécanique : « Accepté » **uniquement** si le PV mentionne un **vote favorable**, une validation formelle ou une approbation nominative **approuvant** la décision traitée. **Un vote qui reporte, ajourne ou renvoie la décision à une séance ultérieure n'est PAS une acceptation → Proposé** (on a justement voté de *ne pas* trancher). Un consensus informel sans vote ni PV validé → **Proposé**. En cas de doute → **Proposé**, toujours (jamais « Accepté » par défaut).
 - Si la décision en **remplace** une autre : renseigne « Remplace » dans la nouvelle ADR, et mets à jour l'ADR visée **dans la même passe** — son champ « Remplacé par » ET son statut, qui passe à « Remplacé » (ainsi que le préfixe de son résumé). Une décision remplacée qui reste « Accepté » est exactement l'hallucination que ce dépôt combat.
 - **Une ADR « Accepté » ne se modifie pas, elle se remplace.** Si on te demande de changer la décision d'une ADR acceptée, refuse et propose une ADR de remplacement (le champ « Remplace » existe pour ça).
 - **Amender sans remplacer** : une décision qui précise ou étend une ADR toujours en vigueur ne la « Remplace » pas (l'ancienne resterait applicable mais paraîtrait morte). Référence l'ADR amendée dans « Références / ADR liées » et dis-le dans le Contexte.

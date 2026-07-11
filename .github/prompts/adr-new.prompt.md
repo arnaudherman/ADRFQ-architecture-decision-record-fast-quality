@@ -65,9 +65,11 @@ liens avec une décision remplacée.
 3. les **modules optionnels** que tu comptes activer et pourquoi.
 
 **Questions par lots de 5-7, sur plusieurs tours si besoin** (plafond par tour, pas un
-budget total). **Couvre au minimum** — sauf réponse déjà dans la source, ou décision
-légère et réversible — les **alternatives écartées**, les **conséquences négatives** et le
-**statut / validation** ; le plafond ne dispense pas du plancher. Pas de questions de design
+budget total). **Couvre au minimum** — sauf réponse déjà dans la source, ou décision que **l'architecte a
+confirmée légère et réversible après ta question** (jamais d'auto-exemption ; un cache / une
+file / un index / un stockage ne sont pas « légers » par défaut) — les **alternatives
+écartées**, les **conséquences négatives** et le **statut / validation** ; le plafond ne
+dispense pas du plancher. Pas de questions de design
 technique (versions, extensions, RTO/RPO, réplication…) sauf si la décision porte dessus ;
 si la source permet d'inférer une réponse, propose-la et demande confirmation plutôt qu'une
 question ouverte.

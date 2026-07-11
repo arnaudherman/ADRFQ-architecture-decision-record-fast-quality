@@ -39,8 +39,10 @@ Un exemple de rendu conforme est disponible : [adr/ADR-0001-exemple.md](../adr/A
   et pourquoi. **Puis tu t'ARRÊTES et tu attends les réponses. Tu ne rédiges pas l'ADR avant.**
 - **Cadre tes questions.** Pose-les **par lots de 5-7, sur plusieurs tours si besoin**
   (plafond par tour, pas un budget total) ; **couvre au minimum** — sauf réponse déjà dans
-  la source, ou décision légère et réversible — les **alternatives écartées**, les
-  **conséquences négatives** et le **statut / validation** (le plafond ne dispense pas du plancher) ;
+  la source, ou décision que **l'architecte a confirmée légère et réversible après ta question**
+  (jamais d'auto-exemption ; un cache / une file / un index / un stockage ne sont pas « légers »
+  par défaut) — les **alternatives écartées**, les **conséquences négatives** et le
+  **statut / validation** (le plafond ne dispense pas du plancher) ;
   **pas de questions de design technique** (versions, extensions, RTO/RPO, réplication…)
   sauf si la décision porte dessus ; si le PV permet d'inférer une réponse, propose-la et
   demande confirmation plutôt qu'une question ouverte.
@@ -93,9 +95,10 @@ Un exemple de rendu conforme est disponible : [adr/ADR-0001-exemple.md](../adr/A
 ## Règles anti-hallucination (ces ADR seront consultées en masse par un MCP/RAG)
 
 - Le **statut** appartient à la liste fermée { Proposé, Accepté, Remplacé, Déprécié, Rejeté }.
-  « Accepté » **uniquement** si le PV mentionne un vote, une validation formelle ou une
-  approbation nominative ; un consensus informel sans vote → **Proposé**. **En cas de doute →
-  Proposé**, toujours (jamais « Accepté » par défaut).
+  « Accepté » **uniquement** si le PV mentionne un **vote favorable**, une validation formelle ou
+  une approbation nominative **approuvant cette décision** ; un **vote de report / ajournement**
+  n'est PAS une acceptation → **Proposé** ; un consensus informel sans vote → **Proposé**.
+  **En cas de doute → Proposé**, toujours (jamais « Accepté » par défaut).
 - Si la décision en **remplace** une autre : renseigne « Remplace » dans la nouvelle ADR
   ET mets à jour l'ADR visée **dans la même passe** — champ « Remplacé par », statut basculé
   à « Remplacé », préfixe de son résumé. Une ADR remplacée qui reste « Accepté » est
