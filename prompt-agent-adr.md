@@ -30,6 +30,12 @@ En particulier, pour la règle du statut : une mention de validation ne compte q
 
 Ne déduis rien à ce stade. Liste seulement ce que la source dit vraiment.
 
+**Anti-doublon de corpus.** Consulte `adr/INDEX.md` : si une ADR **« Accepté »** couvre déjà le
+**même sujet / la même décision**, ne crée pas une seconde ADR en silence (ce serait polluer le
+corpus). Remonte-le à l'architecte, **sans présumer l'issue** : **réutiliser / amender**
+(l'existante reste, on la cite en « Références »), **remplacer** (via `/adr-remplace`), ou
+**créer quand même** si la décision est réellement distincte.
+
 **PV multi-décisions.** Un PV de comité porte souvent plusieurs décisions distinctes.
 La règle est **une ADR par décision** : si tu en repères plusieurs, liste-les au point
 de validation (phase 2) et propose une ADR par décision — jamais une ADR fourre-tout,
@@ -109,6 +115,7 @@ seconde passe, montre-les à l'architecte au lieu de boucler.
 
 Ces ADR seront consultées en masse par un MCP. Pour éviter qu'une décision morte soit citée comme vivante :
 - Le **statut** appartient à la liste fermée **{ Proposé, Accepté, Remplacé, Déprécié, Rejeté }** et suit une règle mécanique : « Accepté » **uniquement** si le PV mentionne un **vote favorable**, une validation formelle ou une approbation nominative **approuvant** la décision traitée. **Un vote qui reporte, ajourne ou renvoie la décision à une séance ultérieure n'est PAS une acceptation → Proposé** (on a justement voté de *ne pas* trancher). Un consensus informel sans vote ni PV validé → **Proposé**. En cas de doute → **Proposé**, toujours (jamais « Accepté » par défaut).
+- **Décision de NE PAS faire** : une décision actée d'écarter une option (« nous ne partons pas sur X ») est une décision **à part entière** — statut selon sa validation (**Accepté** si validée, sinon **Proposé**), l'option écartée figurant en « Options considérées ». **« Rejeté » ne qualifie PAS une décision de non-action** : ce statut est réservé à une ADR dont la **proposition elle-même** n'a pas été retenue (elle n'est pas en vigueur).
 - Si la décision en **remplace** une autre : renseigne « Remplace » dans la nouvelle ADR, et mets à jour l'ADR visée **dans la même passe** — son champ « Remplacé par » ET son statut, qui passe à « Remplacé » (ainsi que le préfixe de son résumé). Une décision remplacée qui reste « Accepté » est exactement l'hallucination que ce dépôt combat.
 - **Une ADR « Accepté » ne se modifie pas, elle se remplace.** Si on te demande de changer la décision d'une ADR acceptée, refuse et propose une ADR de remplacement (le champ « Remplace » existe pour ça).
 - **Amender sans remplacer** : une décision qui précise ou étend une ADR toujours en vigueur ne la « Remplace » pas (l'ancienne resterait applicable mais paraîtrait morte). Référence l'ADR amendée dans « Références / ADR liées » et dis-le dans le Contexte.

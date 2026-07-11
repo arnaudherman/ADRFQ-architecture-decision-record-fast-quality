@@ -48,6 +48,12 @@ fabriquer une ADR à partir de la documentation fournie.
 
 ### Phases 1 et 2 — Extraction puis analyse des manques
 
+**Avant d'extraire — anti-doublon.** Lis `adr/INDEX.md` : si une ADR **« Accepté »** couvre
+déjà le **même sujet / la même décision**, ne crée pas une seconde ADR en silence. Remonte-le à
+l'architecte, sans présumer l'issue : **réutiliser / amender** (l'existante reste, citée en
+« Références »), **remplacer** (via `/adr-remplace`), ou **créer quand même** si la décision est
+réellement distincte.
+
 Extrais ce qui est **explicitement présent** dans la source (problème, options débattues,
 décision et qui l'a prise, raisonnement, conséquences). Ne déduis rien à ce stade.
 Compare au template canonique et identifie les **trous** — surtout : alternatives écartées
@@ -101,7 +107,10 @@ Une fois les réponses reçues et les trous comblés :
    d'identité). Si « Options considérées » est présent, la Décision **commence par**
    « Option retenue : « X », parce que … ». Les conséquences incluent toujours une face négative.
 5. **Garde-fous** : statut dans { Proposé, Accepté, Remplacé, Déprécié, Rejeté } ; en cas
-   de doute → **Proposé**. N'invente jamais ID, date ou lien d'ADR (séance non datée →
+   de doute → **Proposé**. Une décision de **ne pas faire** (« nous ne partons pas sur X »)
+   est une vraie décision (statut **Accepté** si validée, sinon **Proposé**, l'option en
+   « Options considérées ») — **« Rejeté »** est réservé à une proposition non retenue, pas à
+   une non-action. N'invente jamais ID, date ou lien d'ADR (séance non datée →
    Date de décision « — »). Si la décision en remplace une autre : renseigne « Remplace »
    ici ET mets à jour l'ADR visée **dans la même passe** (« Remplacé par », statut
    → « Remplacé », préfixe de son résumé).
