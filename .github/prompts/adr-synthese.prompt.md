@@ -30,6 +30,12 @@ phrases et signale-les.
 - **Pages Confluence** → via le serveur MCP Atlassian/Confluence **en lecture/recherche
   seule** s'il est configuré ; sinon, demande à l'architecte de **coller le contenu** ou de
   l'exporter en markdown (voir MarkItDown pour les formats binaires).
+  Une page wiki **n'a pas de statut de validité** (contrairement à une ADR) : porte sa **date
+  de dernière modification** au registre, et **signale à l'architecte** une source sensiblement
+  plus ancienne que la décision en cours, ou lue seulement **partiellement** (droits, section
+  protégée). Si le MCP renvoie un **tableau aplati ou une macro non rendue**, ne **reconstruis
+  jamais** silencieusement l'appariement — traite-le comme un Mermaid (propose ta lecture,
+  demande confirmation) ou demande un export.
 - **ADR existantes** → via `adr/INDEX.md`. **Ne consulte comme faisant foi que les ADR au
   statut « Accepté »** ; une ADR « Remplacé / Déprécié / Rejeté » est un historique, pas une
   règle en vigueur.
