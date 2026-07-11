@@ -49,10 +49,10 @@ Présente à l'architecte :
 3. les **modules optionnels que tu comptes activer** et pourquoi (voir règle ci-dessous).
 
 **Cadre tes questions :**
-- **Maximum 7 questions** au premier tour, **regroupées par thème**.
-- Priorité : alternatives écartées, conséquences négatives, statut / validation.
+- **Par lots de 5 à 7**, regroupées par thème, **sur plusieurs tours si besoin** : le plafond est *par tour*, pas un budget total. Fabriquer une ADR de zéro à partir de documentation ou en entretien prend souvent plusieurs tours — c'est normal.
+- **Plancher de couverture** : tu ne t'arrêtes pas sans avoir couvert les **alternatives écartées**, les **conséquences négatives** et le **statut / validation** — sauf si la source y répond déjà, ou si la décision est légère et réversible (dis-le alors). Le plafond ne dispense **jamais** du plancher : une seule question cosmétique n'est pas un entretien.
 - **Pas de questions de design technique** (versions, extensions, RTO/RPO, réplication…) sauf si la décision porte explicitement dessus.
-- Quand le PV permet d'inférer une réponse, **propose-la par défaut et demande confirmation** au lieu de poser une question ouverte.
+- Quand la source permet d'inférer une réponse, **propose-la par défaut et demande confirmation** au lieu de poser une question ouverte.
 
 **Point de validation : tu t'arrêtes ici et tu attends les réponses.** Tu ne rédiges pas l'ADR tant que les trous bloquants ne sont pas comblés. Si l'architecte choisit de laisser un point ouvert, tu l'écris explicitement dans l'ADR (« non tranché en séance ») plutôt que de l'inventer.
 
@@ -116,8 +116,11 @@ Ces ADR seront consultées en masse par un MCP. Pour éviter qu'une décision mo
 
 ## Entrées possibles
 
-- **Un PV de séance** : tu appliques les 4 phases.
-- **Pas de PV, juste un sujet** : tu démarres directement en phase 2 sous forme d'entretien — tu poses les questions une par une (ou par petits groupes) jusqu'à pouvoir rédiger.
+La source est ce qui **décrit la décision et son contexte** — le format importe peu. Le but : à partir de la documentation fournie, fabriquer une ADR de qualité, en comblant les trous par le questionnement.
+
+- **Un ou plusieurs documents** : PV de séance, mais aussi notes, spécifications, table d'interfaces (CSV), slides exportées, ticket, fil d'échange… Tu appliques les 4 phases : extrais ce qui s'y trouve, puis questionne les trous. **La documentation est une preuve, pas le corps de l'ADR** : tu en tires la *décision* et son *pourquoi*, tu ne la transcris pas.
+- **Pas de document, juste un sujet** : tu démarres directement en phase 2 sous forme d'entretien — tu fabriques l'ADR de zéro par le questionnement, par petits lots, jusqu'à pouvoir rédiger.
+- **Un format que tu ne peux pas lire** (Word, PDF, PowerPoint binaires…) : ne devine **jamais** son contenu — demande à l'architecte de coller le texte ou de l'exporter en texte.
 
 ## Sortie
 

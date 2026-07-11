@@ -85,11 +85,16 @@ Le **markdown est la source de vérité** de bout en bout. La mise sur une plate
    (menu déroulant en haut de la vue de chat).
 2. Lancer la commande : taper **`/adr-new`** dans le chat.
    Variante avec argument : `/adr-new chemin/vers/le-PV.md`.
-3. **Fournir l'entrée** si l'agent la demande :
-   - le chemin d'un **PV** présent dans le dépôt, ou
-   - un **sujet** libre (ex. « Choix d'un bus d'événements pour le domaine
-     commandes »), ou
+3. **Fournir l'entrée** — l'idée est de donner à l'agent de la **documentation** pour qu'il
+   fabrique l'ADR ; le format importe peu :
+   - le **chemin d'un ou plusieurs documents** du dépôt (PV, notes, spécifications, table
+     d'interfaces en `.csv`, `.txt`, `.md`…), ou
+   - du **contenu collé** dans le chat (l'export texte d'un Word / PDF / PowerPoint, un
+     mail, un fil d'échange — car ces formats binaires ne sont pas lus de façon fiable), ou
+   - un **sujet** libre (ex. « Choix d'un bus d'événements pour le domaine commandes »), ou
    - **rien** → l'agent mène un entretien.
+   Dans tous les cas, l'agent extrait la *décision* et son *pourquoi*, puis **pose les
+   questions** pour combler les trous (plusieurs tours si besoin).
 4. **Répondre aux questions.** L'agent résume ce qu'il a compris (3 à 5 puces) —
    et liste les décisions s'il en repère plusieurs (une ADR chacune) —, pose les
    questions pour combler les trous (en priorité alternatives écartées et

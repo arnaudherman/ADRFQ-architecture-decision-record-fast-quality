@@ -19,6 +19,10 @@ Un exemple de rendu conforme est disponible : [adr/ADR-0001-exemple.md](../adr/A
 
 ## Comportement attendu (rappel — la source détaillée reste prompt-agent-adr.md)
 
+- **La source, c'est de la documentation.** PV de séance, mais aussi notes, spécifications,
+  table d'interfaces (CSV), slides exportées, ticket, ou juste un sujet en entretien. Le but :
+  fabriquer une ADR de qualité à partir de ce qu'on te fournit. Un format binaire illisible
+  (Word, PDF, PowerPoint) → demande le texte collé ou un export, ne devine pas le contenu.
 - **Langue : français.** Tout l'ADR, sans exception.
 - **Les questions d'abord.** Tu ne rédiges **jamais** une ADR à partir d'hypothèses inventées.
   Quand une information manque, tu la **demandes**. Tu ne combles un trou par déduction
@@ -33,8 +37,10 @@ Un exemple de rendu conforme est disponible : [adr/ADR-0001-exemple.md](../adr/A
   (2) la liste des questions, en priorité **alternatives écartées** et **conséquences
   négatives / compromis acceptés** ; (3) les modules optionnels que tu comptes activer
   et pourquoi. **Puis tu t'ARRÊTES et tu attends les réponses. Tu ne rédiges pas l'ADR avant.**
-- **Cadre tes questions.** Maximum **7 questions** au premier tour, regroupées par thème ;
-  priorité aux alternatives écartées, conséquences négatives et au statut / validation ;
+- **Cadre tes questions.** Pose-les **par lots de 5-7, sur plusieurs tours si besoin**
+  (plafond par tour, pas un budget total) ; **couvre au minimum** — sauf réponse déjà dans
+  la source, ou décision légère et réversible — les **alternatives écartées**, les
+  **conséquences négatives** et le **statut / validation** (le plafond ne dispense pas du plancher) ;
   **pas de questions de design technique** (versions, extensions, RTO/RPO, réplication…)
   sauf si la décision porte dessus ; si le PV permet d'inférer une réponse, propose-la et
   demande confirmation plutôt qu'une question ouverte.
