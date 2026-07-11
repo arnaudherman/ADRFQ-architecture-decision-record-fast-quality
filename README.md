@@ -124,6 +124,18 @@ questions, écrit la nouvelle ADR (« Remplace ») **et** met à jour l'ancienne
 (« Remplacé par », statut → « Remplacé ») dans la même passe, puis re-vérifie la
 réciprocité au linter.
 
+### Croiser plusieurs sources (décision structurante)
+
+Pour une **grosse décision** qui s'appuie sur plusieurs documents (PV de comité,
+pages Confluence, ADR existantes, diagrammes Mermaid), taper
+**`/adr-synthese <sujet> + les sources`**. L'agent fait le **croisement fastidieux à
+ta place** : il lit chaque source séparément, repère les **désaccords entre elles**,
+et ne te remonte — **en une seule fois** — que les vrais conflits, les trous et les
+inférences à confirmer (jamais les faits qui concordent). **Tu arbitres, il rédige.**
+Il ne tranche jamais un conflit seul, n'invente aucune provenance, et ne consulte
+comme faisant foi que les ADR au statut « Accepté ». La provenance va dans
+« Références », les divergences arbitrées dans le Contexte.
+
 ### Quand ne PAS créer une ADR
 
 Le corpus est consulté en masse par l'IA : le polluer de pseudo-décisions dégrade
@@ -289,7 +301,8 @@ conception).
 │   │   └── adr.instructions.md   # invariants du format, portée adr/** (édition manuelle)
 │   ├── prompts/
 │   │   ├── adr-new.prompt.md     # commande /adr-new
-│   │   └── adr-remplace.prompt.md# commande /adr-remplace (transaction de remplacement)
+│   │   ├── adr-remplace.prompt.md# commande /adr-remplace (transaction de remplacement)
+│   │   └── adr-synthese.prompt.md# commande /adr-synthese (croisement multi-sources)
 │   └── workflows/
 │       └── lint-adr.yml          # CI : linter + tests + index + couplage template↔linter
 ├── scripts/
