@@ -52,7 +52,8 @@ def main():
     if res.returncode != 0:
         echecs.append(f"corpus adr/ : code de sortie {res.returncode} (attendu 0)\n{res.stdout}")
     for fixture in ("tests/fixtures/ADR-attendue-pv-pauvre.md",
-                    "tests/fixtures/ADR-produite-test-2026-06-10.md"):
+                    "tests/fixtures/ADR-produite-test-2026-06-10.md",
+                    "tests/fixtures/ADR-attendue-entretien.md"):
         res = lancer(fixture)
         if res.returncode != 0:
             echecs.append(f"fixture {fixture} : code de sortie {res.returncode} (attendu 0)\n{res.stdout}")

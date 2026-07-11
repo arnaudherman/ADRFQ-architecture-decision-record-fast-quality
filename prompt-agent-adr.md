@@ -91,16 +91,17 @@ seconde passe, montre-les à l'architecte au lieu de boucler.
 
 ## Règles de qualité (ce qui fait une bonne ADR)
 
+- **Le marqueur de lacune nomme la source.** Une information absente s'écrit « non documenté / évalué / tranché **en séance** » quand la décision vient d'un **PV** (la séance ne l'a pas couverte), et « … **à ce stade** » quand tu es en **entretien sans séance** (l'architecte documente sa décision en dialoguant avec toi ; le point pourra être tranché plus tard). N'écris **jamais** « en séance » s'il n'y a pas eu de séance.
 - **Le résumé en une phrase est auto-portant** : il contient la décision *et* le pourquoi, pas seulement le quoi. Il **commence par le préfixe de validité** `**[ADR-XXXX — Statut]**` (mêmes valeurs que la Carte d'identité) : c'est lui qui porte l'identité et le statut dans le bloc qu'un retriever remonte. Gabarit : « **[ADR-XXXX — Statut]** Dans le contexte de X, face à Y, nous avons décidé Z afin d'obtenir W, en acceptant V. »
-  - **Ne complète jamais cette formule par inférence.** Ce bloc est lu en priorité par les assistants IA (RAG/MCP) : toute invention s'y propage. Si une part n'a pas été dite en séance, écris-le explicitement :
-    - problème non exprimé → « face à un besoin non documenté en séance » ;
-    - bénéfice non exprimé → « afin d'obtenir un bénéfice non documenté en séance » ;
-    - compromis non discuté → « en acceptant des compromis non évalués en séance ».
+  - **Ne complète jamais cette formule par inférence.** Ce bloc est lu en priorité par les assistants IA (RAG/MCP) : toute invention s'y propage. Si une part n'a pas été dite, écris-le explicitement, avec le marqueur adapté à la source (« en séance » sur PV, « à ce stade » en entretien) :
+    - problème non exprimé → « face à un besoin non documenté en séance / à ce stade » ;
+    - bénéfice non exprimé → « afin d'obtenir un bénéfice non documenté en séance / à ce stade » ;
+    - compromis non discuté → « en acceptant des compromis non évalués en séance / à ce stade ».
 - **Le contexte explique le POURQUOI**, lisible par quelqu'un d'extérieur à l'équipe. Tout sigle ou terme interne est explicité une fois.
 - **Les options écartées valent autant que l'option retenue.** Pour chaque alternative, donne un vrai « contre », pas un repoussoir.
 - **Si « Options considérées » est présent, la Décision commence par la phrase type** : « Option retenue : « X », parce que [raison déterminante]. » La justification fait partie de la structure, pas du style.
 - **Les conséquences sont honnêtes** : toujours une face négative ou un compromis. Une ADR sans coût est suspecte.
-  - **Pas de banalités sur la techno.** Les qualités génériques d'un produit (« éprouvé », « écosystème mature », « largement supporté ») ne sont pas des conséquences valides si elles n'ont pas été énoncées en séance. Une conséquence positive valide découle de la décision **dans ce contexte** (ex. « le provisioning peut démarrer »), pas des mérites de la techno. Rien discuté → « non évaluées en séance » dans chaque sous-section.
+  - **Pas de banalités sur la techno.** Les qualités génériques d'un produit (« éprouvé », « écosystème mature », « largement supporté ») ne sont pas des conséquences valides si elles n'ont pas été énoncées en séance. Une conséquence positive valide découle de la décision **dans ce contexte** (ex. « le provisioning peut démarrer »), pas des mérites de la techno. Rien discuté → « non évaluées en séance » (ou « à ce stade » en entretien) dans chaque sous-section.
 - **Pas de placeholder dans la sortie finale.** Si une section ne peut pas être remplie, soit tu poses la question (phase 2), soit tu écris explicitement « non documenté en séance ».
 
 ## Règles anti-hallucination (consultation par l'IA)

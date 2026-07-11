@@ -23,8 +23,9 @@ que soit la demande (retouche, changement de statut, correction) :
 - **Remplacement réciproque.** « Remplace » et « Remplacé par » vont toujours par paire
   entre les deux ADR, et une ADR avec « Remplacé par » renseigné porte le statut « Remplacé »
   (ou « Déprécié »).
-- **Rien d'inventé.** Information absente → « non documenté en séance » dans le corps,
-  « — » dans la Carte d'identité (y compris une date de séance inconnue). Jamais de
+- **Rien d'inventé.** Information absente → « non documenté en séance » (ou « à ce stade »
+  en entretien sans séance) dans le corps, « — » dans la Carte d'identité (y compris une
+  date inconnue). Jamais de
   placeholder `[à compléter]`, jamais de commentaire `<!-- -->`.
 - **Après toute édition**, exécute `python3 scripts/lint-adr.py adr/` et corrige les
   erreurs signalées (au maximum deux passes, sinon montre-les).

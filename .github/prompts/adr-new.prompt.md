@@ -67,7 +67,7 @@ demande confirmation plutôt qu'une question ouverte.
 **Puis ARRÊTE-TOI et attends les réponses de l'architecte. N'écris AUCUN fichier ADR
 tant que les trous bloquants ne sont pas comblés.** Même si tu juges avoir assez de
 contexte, tu poses d'abord les questions et tu attends. Si l'architecte laisse un point
-ouvert, écris « non tranché en séance » dans l'ADR plutôt que de l'inventer.
+ouvert, écris « non tranché en séance » (ou « à ce stade » en entretien sans séance) dans l'ADR plutôt que de l'inventer.
 
 ### Phases 3 et 4 — Sélection des modules, rédaction et écriture du fichier
 

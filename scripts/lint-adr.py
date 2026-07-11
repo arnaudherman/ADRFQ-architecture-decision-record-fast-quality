@@ -59,10 +59,13 @@ MODULES_OPTIONNELS = [
     "Validation et suivi",
     "Références",
 ]
-# « non documenté / évalué(e)(s) / tranché en séance » — participes de LACUNE
-# uniquement (pas « vote non contesté en séance », qui décrit un vote réel).
+# Marqueur de lacune : « non documenté / évalué / tranché … » suivi de la source —
+# « en séance » (la décision vient d'un PV) ou « à ce stade » / « à ce jour »
+# (entretien sans séance). Participes de LACUNE uniquement (pas « vote non
+# contesté en séance », qui décrit un vote réel).
 RE_NON_SEANCE = re.compile(
-    r"non\s+(?:documenté|évalué|tranché|discuté|abordé|précisé|exprimé|formulé)(?:e?s?)\s+en\s+séance",
+    r"non\s+(?:documenté|évalué|tranché|discuté|abordé|précisé|exprimé|formulé)(?:e?s?)\s+"
+    r"(?:en\s+séance|à\s+ce\s+stade|à\s+ce\s+jour)",
     re.IGNORECASE,
 )
 # Placeholders textuels (frontières de mots pour éviter les faux positifs).
@@ -195,8 +198,8 @@ def texte_pour_placeholders(texte):
 
 def section_sans_contenu(corps):
     """Vrai si le corps n'a AUCUNE ligne de contenu (les sous-titres ne comptent pas).
-    Contrairement à module_vide, « non … en séance » compte comme du contenu :
-    c'est la mention honnête prescrite pour le noyau."""
+    Contrairement à module_vide, « non … en séance / à ce stade » compte comme du
+    contenu : c'est la mention honnête prescrite pour le noyau."""
     if corps is None:
         return False
     return not any(l.strip() and not l.strip().startswith("#") for l in corps.splitlines())
@@ -204,7 +207,7 @@ def section_sans_contenu(corps):
 
 def module_vide(corps):
     """Vrai si le corps d'un module n'a aucun contenu réel, ou seulement des
-    mentions « non … en séance » (sous-titres et puces ignorés)."""
+    mentions « non … en séance / à ce stade » (sous-titres et puces ignorés)."""
     if corps is None:
         return False
     lignes = []
@@ -370,7 +373,7 @@ def lint_fichier(chemin):
 
         # 3a. Statut « Accepté » incompatible avec un résumé troué
         if statut == "Accepté" and RE_NON_SEANCE.search(resume):
-            r.err("Statut", "statut « Accepté » incompatible avec un résumé incomplet (« non … en séance ») : une décision pas mûre reste « Proposé »")
+            r.err("Statut", "statut « Accepté » incompatible avec un résumé incomplet (« non … en séance / à ce stade ») : une décision pas mûre reste « Proposé »")
         # 3b. Formules vagues dans le résumé
         m_creux = RE_RESUME_CREUX.search(resume)
         if m_creux:
@@ -380,7 +383,7 @@ def lint_fichier(chemin):
     if statut == "Accepté":
         n_lacunes = len(RE_NON_SEANCE.findall(texte_hors_code(texte)))
         if n_lacunes > 4:
-            r.warn("Statut", f"{n_lacunes} mentions « non … en séance » pour une ADR « Accepté » — décision mûre ? (seuil indicatif : 4)")
+            r.warn("Statut", f"{n_lacunes} mentions « non … en séance / à ce stade » pour une ADR « Accepté » — décision mûre ? (seuil indicatif : 4)")
 
     # 3c. Module optionnel présent mais vide → à retirer (pas inclure vide)
     for module in MODULES_OPTIONNELS:

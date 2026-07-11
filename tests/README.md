@@ -86,6 +86,42 @@ présentés comme points d'analyse à venir : c'est utile au lecteur et ne doit 
 
 ---
 
+## 1-bis. Rédaction en entretien pur (sans PV) — manuel
+
+But : vérifier le chemin **central** de l'outil — un AE/AS sans procès-verbal produit une
+ADR de qualité, l'agent faisant émerger le contenu par les bonnes questions. Point de
+vigilance propre à ce mode : **il n'y a pas de séance**, donc les parts non tranchées se
+marquent « à ce stade » (jamais « en séance »).
+
+### Protocole (dans VS Code + Copilot)
+
+1. Lancer `/adr-new Choix d'un bus d'événements pour le domaine commandes` (un sujet, pas
+   un fichier).
+2. L'agent doit **poser ses questions puis s'arrêter** (il n'a rien à extraire).
+3. Répondre en laissant volontairement un trou : indiquer la techno (Kafka, déjà en
+   interne) et le périmètre, mais répondre « je préfère ne pas m'avancer, je verrai à
+   l'usage » sur le compromis accepté.
+4. Comparer la sortie à `fixtures/ADR-attendue-entretien.md`.
+
+### Critères de succès
+
+- **Statut = Proposé** (pas de vote — aucune séance).
+- Les trous sont marqués **« à ce stade »**, jamais « en séance » : une ADR issue d'un
+  entretien qui parle de « séance » est un échec (mensonge sur l'origine).
+- L'agent a proposé le compromis / la date **pour confirmation** (« je suppose X, corrige »)
+  plutôt que de laisser un blanc ou d'inventer.
+- Aucune banalité sur Kafka ; conséquence positive contextuelle (« Commandes n'est plus
+  bloqué si Facturation est indisponible »).
+- L'agent a lancé le linter de lui-même.
+
+### Signaux d'échec
+
+- Le résumé ou les conséquences disent « non évalué **en séance** » alors qu'aucune séance
+  n'a eu lieu.
+- L'agent invente un compromis que l'architecte a refusé de trancher.
+
+---
+
 ## 2. Consultation — anti-décision-périmée (manuel)
 
 But : vérifier la promesse « lisible par l'IA » du README §1 — un assistant qui consulte

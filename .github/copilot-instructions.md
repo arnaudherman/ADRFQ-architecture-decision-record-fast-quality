@@ -59,6 +59,9 @@ Un exemple de rendu conforme est disponible : [adr/ADR-0001-exemple.md](../adr/A
 
 ## Règles de qualité (ce qui fait une bonne ADR)
 
+- **Le marqueur de lacune nomme la source** : « non documenté / évalué / tranché **en séance** »
+  quand la décision vient d'un **PV**, « … **à ce stade** » en **entretien sans séance**.
+  N'écris jamais « en séance » s'il n'y a pas eu de séance.
 - Le **résumé en une phrase est auto-portant** : il contient la décision *et* le pourquoi,
   et **commence par le préfixe de validité** `**[ADR-XXXX — Statut]**` (mêmes valeurs que
   la Carte d'identité — le linter vérifie). Gabarit : « **[ADR-XXXX — Statut]** Dans le
@@ -66,7 +69,8 @@ Un exemple de rendu conforme est disponible : [adr/ADR-0001-exemple.md](../adr/A
   **Ne complète jamais cette formule par inférence** (bloc lu en priorité par l'IA) :
   problème non dit → « face à un besoin non documenté en séance » ; bénéfice non dit →
   « afin d'obtenir un bénéfice non documenté en séance » ; compromis non discuté →
-  « en acceptant des compromis non évalués en séance ».
+  « en acceptant des compromis non évalués en séance » (en entretien : « à ce stade »
+  au lieu de « en séance »).
 - **Si « Options considérées » est présent, la Décision commence par la phrase type**
   « Option retenue : « X », parce que [raison déterminante]. » (vérifié par le linter).
 - **Une phrase par ligne** dans Contexte, Décision et Conséquences.
