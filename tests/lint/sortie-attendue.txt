@@ -25,6 +25,15 @@
           ✗ [Statut] statut « Remplacé » sans « Remplacé par » renseigné — aide : indiquer l'ADR remplaçante
           ✗ [ID] ID dupliqué : « ADR-0002 » déjà utilisé par tests/lint/temoin/ADR-0002-temoin-cassee.md
   OK    tests/lint/temoin/ADR-0003-temoin-conforme.md
+  ERREUR tests/lint/temoin/ADR-0004-temoin-contrat.md
+          ✗ [identité] tableau de la Carte d'identité coupé en deux — aide : le tableau est d'un seul tenant, ne rien insérer entre ses lignes
+          ✗ [Validé par] statut « Proposé » avec « Validé par » renseigné — aide : une validation nominative existe ⇒ statut « Accepté » (ou « Rejeté ») ; sinon « — »
+          ✗ [Résumé] segments du gabarit hors ordre — aide : dans le contexte → face à → nous avons décidé → afin de → en acceptant (l'ordre permet le découpage fiable du résumé)
+          ✗ [module] « Contre : » vide ou absent dans une option — aide : un vrai contenu, ou le marqueur de lacune (« non documenté en séance »)
+          ✗ [Décision] « Option retenue : « Beta » » ≠ option _(retenue)_ du module (« Alpha ») — aide : libellés strictement identiques
+          ✗ [Validation et suivi] « Revue prévue le » sans date réelle : « bientôt » (attendu AAAA-MM-JJ, ou « — »)
+          ⚠ [Résumé] le compromis « en acceptant … » ne recoupe aucune puce des « Négatives et compromis acceptés » — aide : le résumé et la section 5 désignent le même compromis
+          ⚠ [Décision] justification creuse « la meilleure solution » — aide : la raison déterminante est un FAIT tiré de la source, pas un jugement de valeur
 
-Résumé : 1/3 conforme(s), 2 en erreur (3 fichier(s) scanné(s)).
-Corpus par statut : 1 Accepté, 1 Remplacé, 1 Proposé.
+Résumé : 1/4 conforme(s), 3 en erreur (4 fichier(s) scanné(s)).
+Corpus par statut : 2 Proposé, 1 Accepté, 1 Remplacé.

@@ -436,9 +436,11 @@ def lint_fichier(chemin):
             m_acc = re.search(r"(?i)en acceptant\s+(.+?)\s*[.!?]?\s*$", sans_prefixe)
             corps_csq = section_contenu(texte, titre_noyau_attendu("Conséquences"))
             if m_acc and corps_csq:
-                m_neg = re.search(r"(?ms)^###\s+Négatives.*$", corps_csq)
+                # comparer aux PUCES seulement (la ligne de titre contient « compromis » :
+                # l'inclure rendrait le recoupement toujours vrai)
+                m_neg = re.search(r"(?ms)^###\s+Négatives[^\n]*\n(.*)$", corps_csq)
                 if m_neg:
-                    communs = mots_significatifs(m_acc.group(1)) & mots_significatifs(m_neg.group(0))
+                    communs = mots_significatifs(m_acc.group(1)) & mots_significatifs(m_neg.group(1))
                     if mots_significatifs(m_acc.group(1)) and not communs:
                         r.warn("Résumé", "le compromis « en acceptant … » ne recoupe aucune puce des « Négatives et compromis acceptés » — aide : le résumé et la section 5 désignent le même compromis")
 

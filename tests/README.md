@@ -46,7 +46,8 @@ modules optionnels vides).
 
 ### Critères de succès
 
-- **Statut = Proposé** (pas de vote ni de validation en séance).
+- **Statut = Proposé** (pas de vote ni de validation en séance), et **« Validé par » = « — »**
+  (aucune preuve de validation à inscrire — l'agent ne recopie pas la liste des présents).
 - **Résumé** : commence par le préfixe `**[ADR-XXXX — Proposé]**` ; les parts non dites
   sont écrites « non documenté / non évalué en séance », jamais inventées.
 - **Contexte** factuel ; mentionne qu'aucune alternative ni critère n'a été discuté.
@@ -164,9 +165,11 @@ python3 tests/lint/run.py
 
 Quatre vérifications (détail dans `tests/lint/run.py`) : le dossier témoin
 `tests/lint/temoin/` — une ADR cassée qui viole une règle par section, un doublon d'ID,
-une ADR conforme — doit produire **exactement** la sortie figée dans
-`tests/lint/sortie-attendue.txt` ; le corpus réel et les fixtures doivent passer ;
-la paire de consultation aussi ; un chemin introuvable doit sortir en code 2.
+un témoin du **contrat v2** (couplage « Validé par », tableau coupé, ordre des segments,
+contrat du module Options, justification creuse, date de revue) et une ADR conforme —
+doit produire **exactement** la sortie figée dans `tests/lint/sortie-attendue.txt` ;
+le corpus réel et les fixtures doivent passer ; la paire de consultation aussi ;
+un chemin introuvable doit sortir en code 2.
 
 Ce protocole tourne en CI (`.github/workflows/lint-adr.yml`) à chaque push et PR.
 Après une évolution **voulue** des règles du linter :
