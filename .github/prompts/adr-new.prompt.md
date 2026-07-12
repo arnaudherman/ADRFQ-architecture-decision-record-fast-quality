@@ -90,9 +90,10 @@ ouvert, écris « non tranché en séance » (ou « à ce stade » en entretien 
 Une fois les réponses reçues et les trous comblés :
 
 1. **ID** : scanne le dossier `adr/` (noms de fichiers ET champs ID des Cartes d'identité)
-   et prends le **prochain numéro libre** au format `ADR-XXXX` (4 chiffres). L'exemple
-   `ADR-0001` compte ; ne réutilise jamais un ID, même celui d'une ADR remplacée ; si deux
-   fichiers se disputent déjà un numéro, **signale-le au lieu de choisir silencieusement**.
+   et prends le **prochain numéro libre** au format `ADR-XXXX` (4 chiffres). Un dossier
+   encore vide → commence à `ADR-0001`. Ne réutilise jamais un ID, même celui d'une ADR
+   remplacée ; si deux fichiers se disputent déjà un numéro, **signale-le au lieu de
+   choisir silencieusement**.
 2. **Modules** : noyau toujours présent ; ajoute « Critères de décision » + « Options
    considérées » s'il y a arbitrage ; ajoute « Validation et suivi » si la décision est
    structurante ; ajoute « Références » dès qu'une source existe. Ne déplace jamais une section.
@@ -109,16 +110,18 @@ Une fois les réponses reçues et les trous comblés :
 5. **Garde-fous** : statut dans { Proposé, Accepté, Remplacé, Déprécié, Rejeté } ; en cas
    de doute → **Proposé**. La preuve de validation va dans **« Validé par »** (personne (rôle)
    ou instance — jamais la liste des présents) : Accepté/Rejeté ⇒ renseigné, Proposé ⇒ « — ». Une décision de **ne pas faire** (« nous ne partons pas sur X »)
-   est une vraie décision (statut **Accepté** si validée, sinon **Proposé**, l'option en
-   « Options considérées ») — **« Rejeté »** est réservé à une proposition non retenue, pas à
-   une non-action. N'invente jamais ID, date ou lien d'ADR (séance non datée →
+   est une vraie décision (statut **Accepté** si validée, sinon **Proposé** ; module
+   « Options considérées » seulement si **plusieurs** options ont été discutées, sinon X se
+   nomme dans le Contexte et la Décision) — **« Rejeté »** est réservé à une proposition non
+   retenue, pas à une non-action. N'invente jamais ID, date ou lien d'ADR (séance non datée →
    Date de décision « — »). Si la décision en remplace une autre : renseigne « Remplace »
    ici ET mets à jour l'ADR visée **dans la même passe** (« Remplacé par », statut
    → « Remplacé », préfixe de son résumé).
 6. **Vérification finale (obligatoire)** : exécute `python3 scripts/lint-adr.py adr/`
    — le dossier entier, pas le seul nouveau fichier. S'il signale des erreurs, corrige et
    relance : **au maximum deux passes** ; s'il en reste, montre-les à l'architecte au lieu
-   de boucler.
+   de boucler. Puis **régénère l'index** : `python3 scripts/lint-adr.py --index adr`
+   (la CI échoue si l'index est périmé).
 7. Après vérification, n'affiche que le **chemin du ou des fichiers créés** et un
    récapitulatif d'une ligne par fichier (ID + titre + statut). **Puis arrête-toi** :
    pas de suggestions non demandées.

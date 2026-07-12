@@ -191,7 +191,8 @@ python3 scripts/lint-adr.py --check-index adr      # vérifie la fraîcheur de l
 ```
 
 Codes de sortie : **0** conforme, **1** au moins une violation, **2** erreur
-d'environnement (chemin introuvable, aucun fichier scanné — jamais de faux vert).
+d'environnement (chemin introuvable ou cwd erroné — jamais de faux vert ; un dossier
+`adr/` existant mais **encore vide** rend 0 : c'est l'état normal d'un corpus qui démarre).
 Sous GitHub Actions, chaque violation devient une annotation `::error` sur le
 fichier dans la PR. Le linter vérifie :
 
@@ -416,7 +417,7 @@ Toute évolution du format se fait dans ces deux fichiers, **et dans la même pa
 1. répercuter le changement dans `scripts/lint-adr.py` (les vérifications) et, si
    besoin, dans les fichiers `.github/` — la CI **échoue** si le template change
    sans le linter ni son jeu de test (couplage vérifié) ;
-2. mettre à jour les exemples (`adr/`) et les fixtures (`tests/fixtures/`) ;
+2. mettre à jour l'exemple canonique et les fixtures (`tests/fixtures/`) ;
 3. régénérer le snapshot du témoin
    (`python3 scripts/lint-adr.py tests/lint/temoin > tests/lint/sortie-attendue.txt`)
    et relire son diff comme du code ;

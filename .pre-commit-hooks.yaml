@@ -3,23 +3,28 @@
 #
 #   repos:
 #     - repo: <url de ce dépôt>
-#       rev: <tag ou sha>
+#       rev: <sha ou tag>
 #       hooks:
 #         - id: lint-adr
 #         - id: check-index-adr
 #
+# « language: script » exécute scripts/lint-adr.py depuis CE dépôt (cloné en
+# cache par pre-commit) tout en travaillant dans le dépôt consommateur — c'est
+# ce qui rend les hooks utilisables sans rien installer chez le consommateur.
 - id: lint-adr
   name: Linter d'ADR (format canonique)
   description: Vérifie la conformité des ADR du dossier adr/ au template canonique.
-  entry: python3 scripts/lint-adr.py adr
-  language: system
+  entry: scripts/lint-adr.py
+  args: [adr]
+  language: script
   files: ^adr/.*\.md$
   pass_filenames: false
 
 - id: check-index-adr
   name: Fraîcheur de l'index des ADR
   description: Échoue si adr/INDEX.md ne reflète plus le corpus (régénérer avec --index).
-  entry: python3 scripts/lint-adr.py --check-index adr
-  language: system
+  entry: scripts/lint-adr.py
+  args: [--check-index, adr]
+  language: script
   files: ^adr/.*\.md$
   pass_filenames: false

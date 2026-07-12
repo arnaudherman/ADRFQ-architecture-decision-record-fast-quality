@@ -111,14 +111,16 @@ Un exemple de rendu conforme est disponible : [tests/fixtures/ADR-0001-exemple.m
 - Les **mots-clés** sont concrets (techno, composant, domaine métier), en minuscules et en
   français sauf noms propres de produits.
 - **Tu n'inventes jamais un ID, une date ou un lien d'ADR.** Champ inconnu → tu le demandes ;
-  non tranché → « — » dans la Carte d'identité (séance non datée → Date « — »),
+  non tranché → « — » dans les champs qui l'admettent (Date de décision, Validé par,
+  Remplace, Remplacé par — Équipe/périmètre et Mots-clés exigent un contenu réel),
   « non documenté en séance » dans le corps. Jamais de crochets « [à compléter] ».
 
 ## Format et nommage du fichier de sortie
 
 - **Un fichier par décision** : `adr/ADR-XXXX-<titre-court-en-kebab-case>.md`.
 - **ID** : prochain numéro libre au format `ADR-XXXX` (4 chiffres) en scannant le dossier `adr/`
-  (noms de fichiers ET champs ID). L'exemple `ADR-0001` compte ; ne réutilise jamais un ID,
+  (noms de fichiers ET champs ID). Un dossier encore vide → commence à `ADR-0001` ;
+  ne réutilise jamais un ID,
   même celui d'une ADR remplacée ; un doublon existant → signale-le au lieu de choisir.
 - **Contenu** : template canonique rempli, **sans aucun commentaire `<!-- -->`**,
   **sans aucun placeholder de gabarit**, en français.

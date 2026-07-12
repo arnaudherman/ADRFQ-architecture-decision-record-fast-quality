@@ -63,6 +63,7 @@ Une fois les réponses reçues :
 3. **Vérification finale (obligatoire)** : `python3 scripts/lint-adr.py adr/` — la
    réciprocité Remplace/Remplacé-par et la cohérence des statuts y sont vérifiées.
    Corrige et relance, **au maximum deux passes** ; s'il reste des erreurs, montre-les.
+   Puis **régénère l'index** : `python3 scripts/lint-adr.py --index adr`.
 4. Affiche un récapitulatif de deux lignes (ancienne : ID + « Remplacé » ; nouvelle :
    ID + titre + « Proposé »). **Puis arrête-toi.**
 

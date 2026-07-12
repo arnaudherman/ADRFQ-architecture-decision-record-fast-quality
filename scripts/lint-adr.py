@@ -10,7 +10,8 @@ Usage :
     python3 scripts/lint-adr.py --check-index adr   # vérifie la fraîcheur de l'index
 
 Codes de sortie : 0 conforme · 1 violation(s) · 2 erreur d'environnement
-(chemin introuvable, aucun fichier scanné — jamais de faux vert).
+(chemin introuvable ou cwd erroné — jamais de faux vert ; un dossier existant
+mais encore vide rend 0 : état normal d'un corpus qui démarre).
 Sous GitHub Actions, chaque violation est aussi émise en annotation ::error/::warning.
 Aucune dépendance externe (bibliothèque standard uniquement).
 Les règles sont testées par snapshot : python3 tests/lint/run.py.
@@ -308,8 +309,9 @@ def lint_fichier(chemin):
         if c not in champs:
             r.err("identité", f"champ manquant : « {c} »")
 
-    # valeur vide = erreur (un champ présent mais vide n'est pas un champ rempli)
-    for c in ("ID", "Statut", "Date de décision", "Validé par"):
+    # valeur vide = erreur (un champ présent mais vide n'est pas un champ rempli ;
+    # « pas de lien » s'écrit « — », jamais une cellule vide)
+    for c in ("ID", "Statut", "Date de décision", "Validé par", "Remplace", "Remplacé par"):
         if c in champs and not champs[c]:
             r.err(c, "valeur vide")
 
