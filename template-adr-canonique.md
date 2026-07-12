@@ -1,5 +1,5 @@
 <!-- ============================================================= -->
-<!-- TEMPLATE ADR CANONIQUE — v2                                    -->
+<!-- TEMPLATE ADR CANONIQUE                                         -->
 <!--                                                               -->
 <!-- RÈGLE D'UNIFORMITÉ (ne jamais enfreindre) :                   -->
 <!--   - Le NOYAU est toujours présent, dans CET ordre, avec ces   -->

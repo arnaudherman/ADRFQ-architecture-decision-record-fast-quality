@@ -1,4 +1,4 @@
-# ADR-0004 — Témoin du contrat v2
+# ADR-0004 — Témoin du contrat du template
 
 ## 1. Carte d'identité
 
@@ -16,11 +16,11 @@ Note égarée au milieu du tableau : elle le coupe en deux.
 
 ## 2. Résumé de la décision
 
-> **[ADR-0004 — Proposé]** Face à un besoin d'erreurs reproductibles, dans le contexte des tests du linter, nous avons décidé de violer le contrat v2 afin d'obtenir un témoin stable, en acceptant un compromis fantôme.
+> **[ADR-0004 — Proposé]** Face à un besoin d'erreurs reproductibles, dans le contexte des tests du linter, nous avons décidé de violer le contrat du template afin d'obtenir un témoin stable, en acceptant un compromis fantôme.
 
 ## 3. Contexte et problème
 
-Ce fichier viole volontairement les règles introduites avec le template v2 : couplage
+Ce fichier viole volontairement les règles du contrat du template : couplage
 statut↔validation, tableau d'un seul tenant, ordre des segments du résumé, contrat du
 module « Options considérées », justification creuse, date de revue.
 
@@ -38,17 +38,17 @@ module « Options considérées », justification creuse, date de revue.
 
 Option retenue : « Beta », parce que c'est la meilleure solution.
 
-Conserver ce fichier tel quel : il exerce les règles du contrat v2.
+Conserver ce fichier tel quel : il exerce les règles du contrat du template.
 
 ## 5. Conséquences
 
 ### Positives
-- Les règles v2 sont couvertes par le snapshot.
+- Les règles du contrat sont couvertes par le snapshot.
 
 ### Négatives et compromis acceptés
 - La maintenance devient coûteuse.
 
 ## Validation et suivi
 
-- Indicateur de réussite : chaque règle v2 apparaît dans la sortie attendue.
+- Indicateur de réussite : chaque règle du contrat apparaît dans la sortie attendue.
 - Revue prévue le : bientôt

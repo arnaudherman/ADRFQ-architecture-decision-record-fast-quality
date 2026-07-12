@@ -165,7 +165,7 @@ python3 tests/lint/run.py
 
 Quatre vérifications (détail dans `tests/lint/run.py`) : le dossier témoin
 `tests/lint/temoin/` — une ADR cassée qui viole une règle par section, un doublon d'ID,
-un témoin du **contrat v2** (couplage « Validé par », tableau coupé, ordre des segments,
+un témoin du **contrat du template** (couplage « Validé par », tableau coupé, ordre des segments,
 contrat du module Options, justification creuse, date de revue) et une ADR conforme —
 doit produire **exactement** la sortie figée dans `tests/lint/sortie-attendue.txt` ;
 le corpus réel et les fixtures doivent passer ; la paire de consultation aussi ;
