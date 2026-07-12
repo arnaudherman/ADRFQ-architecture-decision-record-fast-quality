@@ -107,7 +107,8 @@ Une fois les réponses reçues et les trous comblés :
    d'identité). Si « Options considérées » est présent, la Décision **commence par**
    « Option retenue : « X », parce que … ». Les conséquences incluent toujours une face négative.
 5. **Garde-fous** : statut dans { Proposé, Accepté, Remplacé, Déprécié, Rejeté } ; en cas
-   de doute → **Proposé**. Une décision de **ne pas faire** (« nous ne partons pas sur X »)
+   de doute → **Proposé**. La preuve de validation va dans **« Validé par »** (personne (rôle)
+   ou instance — jamais la liste des présents) : Accepté/Rejeté ⇒ renseigné, Proposé ⇒ « — ». Une décision de **ne pas faire** (« nous ne partons pas sur X »)
    est une vraie décision (statut **Accepté** si validée, sinon **Proposé**, l'option en
    « Options considérées ») — **« Rejeté »** est réservé à une proposition non retenue, pas à
    une non-action. N'invente jamais ID, date ou lien d'ADR (séance non datée →

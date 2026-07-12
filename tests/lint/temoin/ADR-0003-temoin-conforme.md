@@ -7,6 +7,7 @@
 | ID                 | ADR-0003 |
 | Statut             | Proposé |
 | Date de décision   | — |
+| Validé par         | — |
 | Équipe / périmètre | Équipe témoin — tests du linter |
 | Mots-clés          | témoin, conformité, linter |
 | Remplace           | — |

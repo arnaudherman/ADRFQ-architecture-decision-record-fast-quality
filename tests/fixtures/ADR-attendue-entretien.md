@@ -11,6 +11,7 @@
 | ID                 | ADR-0006 |
 | Statut             | Proposé |
 | Date de décision   | 2026-07-11 |
+| Validé par         | — |
 | Équipe / périmètre | Architecture solution — domaine commandes |
 | Mots-clés          | Kafka, bus d'événements, découplage, domaine commandes |
 | Remplace           | — |

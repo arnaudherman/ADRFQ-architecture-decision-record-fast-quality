@@ -2,6 +2,7 @@
           ✗ [noyau] sections du noyau dans le désordre — aide : rétablir l'ordre canonique 1 → 5
           ✗ [module] module « Références » hors de son emplacement fixe — aide : le placer après « 5. Conséquences »
           ✗ [titre] l'ID du titre H1 (« ADR-0009 ») ne correspond pas à la Carte d'identité (« ADR-0002 »)
+          ✗ [Validé par] statut « Accepté » sans preuve de validation — aide : qui a tranché (personne, rôle ou instance) ? sans preuve nominative, le statut reste « Proposé »
           ✗ [Statut] « Remplacé par » est renseigné mais le statut est « Accepté » — aide : une ADR remplacée passe au statut « Remplacé » (ou « Déprécié »)
           ✗ [Date de décision] date inexistante : « 2026-13-45 »
           ✗ [Équipe / périmètre] valeur vide
@@ -10,6 +11,7 @@
           ✗ [Résumé] formule vague dans le résumé (« divers ») — préciser ou retirer
           ✗ [module] module optionnel vide, à retirer : « Références »
           ✗ [noyau] section du noyau vide : « 4. Décision »
+          ✗ [auto-suffisance] renvoi interne « Comme mentionné plus haut » — aide : nommer explicitement l'élément visé (une section doit rester compréhensible isolée)
           ✗ [placeholder] commentaire de gabarit résiduel « <!-- … --> »
           ✗ [placeholder] placeholder non rempli : « [À remplir] » — aide : pour un crochet légitime, utiliser un lien « [texte](url) » ou « [texte][ref] »
           ✗ [placeholder] marqueur de gabarit résiduel : « TODO »
@@ -17,6 +19,7 @@
           ✗ [Remplacé par] « ADR-9999 » introuvable dans le dossier scanné — aide : référence pendante (ADR inexistante ou ID erroné)
           ⚠ [Mots-clés] 1 mot(s)-clé(s) — le template en recommande 3 à 6
           ⚠ [Résumé] plusieurs phrases détectées — le résumé doit tenir en UNE phrase auto-portante
+          ⚠ [sobriété] bloc de code / diagramme dans l'ADR — aide : lien vers la doc séparée dans « Références »
           ⚠ [référence] « ADR-0009 » cité dans le corps mais introuvable dans le dossier scanné
   ERREUR tests/lint/temoin/ADR-0002-temoin-doublon.md
           ✗ [Statut] statut « Remplacé » sans « Remplacé par » renseigné — aide : indiquer l'ADR remplaçante

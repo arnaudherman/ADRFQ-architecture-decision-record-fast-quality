@@ -10,6 +10,7 @@
 | ID                 | ADR-0042 |
 | Statut             | Remplacé |
 | Date de décision   | 2024-03-12 |
+| Validé par         | Comité d'architecture |
 | Équipe / périmètre | Architecture — plateforme documentaire |
 | Mots-clés          | pièces jointes, stockage, NAS, plateforme documentaire |
 | Remplace           | — |

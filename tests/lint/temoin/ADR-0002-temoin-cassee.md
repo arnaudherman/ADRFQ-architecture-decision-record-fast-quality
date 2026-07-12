@@ -13,6 +13,7 @@
 | ID                 | ADR-0002 |
 | Statut             | Accepté |
 | Date de décision   | 2026-13-45 |
+| Validé par         | — |
 | Équipe / périmètre | — |
 | Mots-clés          | témoin |
 | Remplace           | — |
@@ -27,6 +28,12 @@
 ## 3. Contexte et problème
 
 [À remplir]
+
+Comme mentionné plus haut, le choix découle du schéma ci-dessus.
+
+```mermaid
+graph LR; A --> B
+```
 
 ## 5. Conséquences
 

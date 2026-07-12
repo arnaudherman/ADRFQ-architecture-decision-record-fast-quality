@@ -7,6 +7,7 @@
 | ID                 | ADR-0002 |
 | Statut             | Remplacé |
 | Date de décision   | 2026-07-01 |
+| Validé par         | Comité témoin |
 | Équipe / périmètre | Équipe témoin — tests du linter |
 | Mots-clés          | témoin, doublon, linter |
 | Remplace           | — |

@@ -164,10 +164,11 @@ assistant IA) aura besoin de savoir *pourquoi* dans un an ? Non → pas d'ADR.
 Le statut suit le cycle { Proposé → Accepté → Remplacé / Déprécié } (ou → Rejeté).
 Règles :
 
-- **Proposé → Accepté** : uniquement sur preuve — un vote ou une validation
-  nominative, consignés dans un PV. Ajouter cette référence dans « Références »
-  de l'ADR. La **« Date de décision » ne change pas** : elle date la séance qui a
-  produit la décision ; la preuve d'acceptation a sa propre trace en Références.
+- **Proposé → Accepté** : uniquement sur preuve — un vote favorable ou une validation
+  nominative, consignés dans un PV. La preuve va dans le champ **« Validé par »** de la
+  Carte d'identité (personne (rôle) ou instance — jamais la liste des présents), le PV
+  complet restant lié dans « Références ». La **« Date de décision » ne change pas** :
+  elle date la séance qui a produit la décision.
 - **Remplacement** : passer par `/adr-remplace` (les deux fichiers dans la même
   passe). Ne jamais laisser une ADR « Accepté » avec un « Remplacé par » renseigné —
   le linter le rejette.
@@ -197,23 +198,33 @@ fichier dans la PR. Le linter vérifie :
 - la **structure** : H1 unique `# ADR-XXXX — Titre`, noyau complet **dans l'ordre**
   avec les titres exacts, modules optionnels **à leurs emplacements fixes**,
   sections du noyau non vides ;
-- la **Carte d'identité** : tous les champs, valeurs non vides, ID `ADR-XXXX`
-  cohérent avec le nom de fichier et le H1, date réelle (`AAAA-MM-JJ`, ou `—` si la
-  source n'est pas datée), statut dans la liste fermée { Proposé, Accepté, Remplacé,
-  Déprécié, Rejeté }, 3 à 6 mots-clés ;
+- la **Carte d'identité** : les 8 champs, valeurs non vides, tableau **d'un seul
+  tenant**, ID `ADR-XXXX` cohérent avec le nom de fichier et le H1, date réelle
+  (`AAAA-MM-JJ`, ou `—` si la source n'est pas datée), statut dans la liste fermée
+  { Proposé, Accepté, Remplacé, Déprécié, Rejeté }, 3 à 6 mots-clés ;
+- la **preuve de validation** : Accepté/Rejeté ⇒ « Validé par » renseigné,
+  Proposé ⇒ « — » (une validation sans preuve n'existe pas) ;
 - le **résumé** : blockquote en une phrase, préfixe `**[ADR-XXXX — Statut]**`
-  cohérent avec la carte, gabarit complet (« dans le contexte… face à… nous avons
-  décidé… afin de… en acceptant »), pas de formule vague ;
+  cohérent avec la carte, gabarit complet **et dans l'ordre** (« dans le contexte…
+  face à… nous avons décidé… afin de… en acceptant »), pas de formule vague,
+  avertissement au-delà de ~90 mots, le compromis « en acceptant… » recoupe une
+  puce des Négatives, une « Rejeté » dit « ne pas » ;
 - la **cohérence de remplacement** : réciprocité « Remplace »/« Remplacé par »,
   statut « Remplacé » ⇔ lien renseigné, pas de cycle, pas de référence pendante
   (en lint de dossier ; en mono-fichier c'est un avertissement), les `ADR-XXXX`
   cités dans le corps existent ;
 - l'**unicité des ID** dans le corpus (le cas « deux branches, même numéro ») ;
+- le **contrat du module « Options considérées »** : au moins 2 options, exactement
+  une `_(retenue)_` (aucune pour une « Rejeté »), nom identique au « X » de
+  « Option retenue : « X » », « Pour : »/« Contre : » non vides ; justification
+  creuse après « parce que » signalée (« standard du marché »…) ;
+- l'**auto-suffisance** : pas de renvoi interne (« ci-dessus », « voir plus haut ») —
+  chaque section reste citable isolément ; pas de bloc de code ni de diagramme
+  (avertissement) ;
 - l'**hygiène** : aucun placeholder (`[à remplir]`, `TODO`…) ni commentaire de
   gabarit `<!-- -->` — sans faux positif sur le markdown légitime (liens, cases à
-  cocher, code, `[sic]`, `[RFC 1234]`) ; « Options considérées » a au moins
-  2 options et la Décision commence alors par « Option retenue : … parce que … » ;
-  un module optionnel vide est signalé à retirer ;
+  cocher, code, `[sic]`, `[RFC 1234]`) ; un module optionnel vide est signalé à
+  retirer ; « Revue prévue le » porte une vraie date ;
 - un garde-fou de maturité : statut « Accepté » incompatible avec un résumé troué,
   avertissement au-delà de 4 « non … en séance » dans le corps.
 
@@ -241,8 +252,8 @@ On les inclut ou on les retire selon le poids de la décision, mais **on ne les
 déplace ni ne les renomme jamais**.
 
 **L'en-tête est le levier « lisible par l'IA »** : la Carte d'identité (statut,
-périmètre, remplace / remplacé-par) + le résumé en une phrase forment un bloc
-auto-portant. Le résumé **commence par le préfixe de validité**
+**preuve de validation « Validé par »**, périmètre, remplace / remplacé-par) + le
+résumé en une phrase forment un bloc auto-portant. Le résumé **commence par le préfixe de validité**
 `**[ADR-XXXX — Statut]**` : même si un retriever ne remonte que ce bloc, il sait
 *quelle* décision il lit et *si elle est encore valide*. Le **statut** est le
 garde-fou anti-hallucination n°1 (en cas de doute → Proposé).

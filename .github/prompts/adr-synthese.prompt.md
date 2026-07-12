@@ -112,8 +112,9 @@ Une fois les arbitrages reçus, rédige au template canonique **en rouvrant les 
   X ; l'architecte a tranché pour Y »). **Aucun tag de provenance entre crochets dans le
   corps** (`[S1]`, `[PV]`…) : le linter les rejette comme placeholders.
 - **Statut prudent** : « Proposé » par défaut ; « Accepté » **uniquement** sur validation
-  nominative rattachée à cette décision (un vote de CODIR consigné, par ex.). Une objection non
-  traitée au PV interdit « Accepté ».
+  nominative rattachée à cette décision (un vote de CODIR consigné, par ex.) — la preuve va
+  dans le champ « Validé par » (Proposé ⇒ « — »). Une objection non traitée au PV interdit
+  « Accepté ».
 - Le résumé commence par le préfixe `**[ADR-XXXX — Statut]**` ; si « Options considérées » est
   présent, la Décision commence par « Option retenue : « X », parce que … ».
 

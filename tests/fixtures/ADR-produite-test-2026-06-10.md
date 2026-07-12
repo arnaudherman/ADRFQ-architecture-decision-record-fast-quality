@@ -7,6 +7,7 @@
 | ID                 | ADR-0002 |
 | Statut             | Proposé |
 | Date de décision   | 2026-06-08 |
+| Validé par         | — |
 | Équipe / périmètre | non documenté en séance (présents : Arnaud, Mehdi, Jonas) |
 | Mots-clés          | PostgreSQL, base de données, Référentiel Produits, provisioning |
 | Remplace           | — |

@@ -28,6 +28,7 @@ CHAMPS_IDENTITE = [
     "ID",
     "Statut",
     "Date de décision",
+    "Validé par",
     "Équipe / périmètre",
     "Mots-clés",
     "Remplace",
@@ -80,6 +81,23 @@ MARQUEURS_RESUME = [
 ]
 # Préfixe de validité en tête du blockquote du résumé.
 RE_PREFIXE_RESUME_GRAS = re.compile(r"^\*\*\[(ADR-\d{4}) — ([^\]]+)\]\*\*\s*")
+# Renvois internes interdits : chaque section doit rester citable isolément (RAG).
+RE_ANAPHORE = re.compile(r"(?i)\bci-dessus\b|\bci-dessous\b|voir plus haut|comme mentionné plus haut")
+# Justifications creuses après « parce que » (section 4) — avertissement.
+RE_JUSTIF_CREUSE = re.compile(r"(?i)standard du marché|tout le monde l'utilise|la meilleure solution|on a toujours fait comme ça")
+# En-tête d'option du module « Options considérées ».
+RE_OPTION = re.compile(r"(?m)^###\s+Option\s+\d+\s+—\s+(.+?)\s+_\((retenue|écartée)\)_\s*$")
+# Mots vides pour le recoupement résumé ↔ Négatives.
+MOTS_VIDES = {
+    "dans", "avec", "pour", "cette", "celle", "celui", "être", "avoir", "plus",
+    "sans", "sont", "comme", "ainsi", "leur", "leurs", "très", "entre", "vers",
+    "donc", "alors", "aussi", "fait", "faire", "principal", "principale",
+}
+
+
+def mots_significatifs(t):
+    """Mots porteurs (≥ 4 lettres, hors mots vides) pour un recoupement lexical."""
+    return {w for w in re.findall(r"[a-zàâäéèêëîïôöùûüç'-]{4,}", t.lower())} - MOTS_VIDES
 # Formules vagues, interdites dans le résumé (bloc lu en priorité par l'IA).
 RE_RESUME_CREUX = re.compile(r"\betc\b\.?|d'autres compromis|\bdivers\b", re.IGNORECASE)
 
@@ -291,9 +309,20 @@ def lint_fichier(chemin):
             r.err("identité", f"champ manquant : « {c} »")
 
     # valeur vide = erreur (un champ présent mais vide n'est pas un champ rempli)
-    for c in ("ID", "Statut", "Date de décision"):
+    for c in ("ID", "Statut", "Date de décision", "Validé par"):
         if c in champs and not champs[c]:
             r.err(c, "valeur vide")
+
+    # tableau de la Carte d'identité d'un seul tenant (rendu et parsing fiables partout)
+    corps_carte = section_contenu(texte, titre_noyau_attendu("Carte d'identité"))
+    if corps_carte is not None:
+        lignes_c = corps_carte.splitlines()
+        idx_pipes = [i for i, l in enumerate(lignes_c) if l.strip().startswith("|")]
+        if idx_pipes:
+            for i in range(idx_pipes[0], idx_pipes[-1] + 1):
+                if not lignes_c[i].strip().startswith("|"):
+                    r.err("identité", "tableau de la Carte d'identité coupé en deux — aide : le tableau est d'un seul tenant, ne rien insérer entre ses lignes")
+                    break
 
     id_adr = champs.get("ID", "")
     if id_adr and not RE_ID.match(id_adr):
@@ -312,6 +341,21 @@ def lint_fichier(chemin):
     statut = champs.get("Statut", "")
     if statut and statut not in STATUTS:
         r.err("Statut", f"« {statut} » hors liste fermée {sorted(STATUTS)}")
+
+    # cohérence Statut <-> Validé par (la preuve que le statut a été tranché) :
+    # Accepté/Rejeté exigent une preuve ; Proposé n'en a pas encore.
+    valide_par = champs.get("Validé par", "")
+    if valide_par and valide_par != "—":
+        for d in re.findall(r"\d{4}-\d{2}-\d{2}", valide_par):
+            try:
+                datetime.date.fromisoformat(d)
+            except ValueError:
+                r.err("Validé par", f"date inexistante dans la preuve de validation : « {d} »")
+    if "Validé par" in champs:
+        if statut in ("Accepté", "Rejeté") and valide_par == "—":
+            r.err("Validé par", f"statut « {statut} » sans preuve de validation — aide : qui a tranché (personne, rôle ou instance) ? sans preuve nominative, le statut reste « Proposé »")
+        if statut == "Proposé" and valide_par and valide_par != "—":
+            r.err("Validé par", "statut « Proposé » avec « Validé par » renseigné — aide : une validation nominative existe ⇒ statut « Accepté » (ou « Rejeté ») ; sinon « — »")
 
     # cohérence Statut <-> liens de remplacement (le statut est le garde-fou n°1 :
     # une décision remplacée ne doit jamais rester lisible comme « en vigueur »)
@@ -362,14 +406,41 @@ def lint_fichier(chemin):
                 if statut and m_pref.group(2) != statut:
                     r.err("Résumé", f"préfixe : statut « {m_pref.group(2)} » ≠ Carte d'identité « {statut} »")
                 sans_prefixe = texte_resume[m_pref.end():]
-            # 3-gabarit : les cinq marqueurs de la phrase type
+            # 3-gabarit : les cinq marqueurs de la phrase type, présents ET dans l'ordre
             bas = sans_prefixe.lower()
-            manquants = [lib for lib, motif in MARQUEURS_RESUME if not re.search(motif, bas)]
+            manquants = []
+            positions = []
+            for lib, motif in MARQUEURS_RESUME:
+                m_seg = re.search(motif, bas)
+                if m_seg is None:
+                    manquants.append(lib)
+                else:
+                    positions.append(m_seg.start())
             if manquants:
                 r.err("Résumé", "gabarit incomplet — marqueurs absents : " + ", ".join(f"« {m} »" for m in manquants))
+            elif positions != sorted(positions):
+                r.err("Résumé", "segments du gabarit hors ordre — aide : dans le contexte → face à → nous avons décidé → afin de → en acceptant (l'ordre permet le découpage fiable du résumé)")
             # 3-une-phrase (heuristique : ponctuation finale suivie d'une majuscule)
             if re.search(r"[.!?]\s+[A-ZÀÂÉÈÊËÎÏÔÙÛÜ«]", sans_prefixe.rstrip(" .!?")):
                 r.warn("Résumé", "plusieurs phrases détectées — le résumé doit tenir en UNE phrase auto-portante")
+            # 3-longueur : ~60 mots est l'optimum assumé, au-delà de 90 c'est un paragraphe
+            n_mots = len(sans_prefixe.split())
+            if n_mots > 90:
+                r.warn("Résumé", f"{n_mots} mots — le résumé dérive vers le paragraphe (optimum ~60, seuil 90)")
+            # 3-rejet : une Rejetée dit « ne pas » dans son segment décision
+            if statut == "Rejeté" and not manquants:
+                m_dec = re.search(r"nous avons décidé(.*?)afin\s+d", bas, re.DOTALL)
+                if m_dec and "ne pas" not in m_dec.group(1):
+                    r.warn("Résumé", "ADR « Rejeté » sans « ne pas » dans le segment décision — aide : « nous avons décidé de NE PAS [proposition]… »")
+            # 3-recoupement : le compromis du résumé recoupe une puce des Négatives
+            m_acc = re.search(r"(?i)en acceptant\s+(.+?)\s*[.!?]?\s*$", sans_prefixe)
+            corps_csq = section_contenu(texte, titre_noyau_attendu("Conséquences"))
+            if m_acc and corps_csq:
+                m_neg = re.search(r"(?ms)^###\s+Négatives.*$", corps_csq)
+                if m_neg:
+                    communs = mots_significatifs(m_acc.group(1)) & mots_significatifs(m_neg.group(0))
+                    if mots_significatifs(m_acc.group(1)) and not communs:
+                        r.warn("Résumé", "le compromis « en acceptant … » ne recoupe aucune puce des « Négatives et compromis acceptés » — aide : le résumé et la section 5 désignent le même compromis")
 
         # 3a. Statut « Accepté » incompatible avec un résumé troué
         if statut == "Accepté" and RE_NON_SEANCE.search(resume):
@@ -396,18 +467,41 @@ def lint_fichier(chemin):
         if corps_sec is not None and section_sans_contenu(corps_sec):
             r.err("noyau", f"section du noyau vide : « {titre_noyau_attendu(sec)} »")
 
-    # 3c-ter. « Options considérées » : au moins 2 options, et la Décision commence
-    # par la phrase type « Option retenue : « X », parce que … »
+    # 3c-ter. Contrat du module « Options considérées » : ≥ 2 options, exactement une
+    # _(retenue)_ (aucune pour une « Rejeté »), nom identique au « X » de la Décision,
+    # « Pour : » / « Contre : » non vides.
     corps_options = section_contenu(texte, "Options considérées")
     if corps_options is not None:
         n_options = len(re.findall(r"(?m)^###\s+Option\b", corps_options))
         if n_options < 2:
             r.err("module", "« Options considérées » avec moins de 2 options — aide : une seule option réellement discutée → retirer le module et le mentionner dans le Contexte")
+        options = RE_OPTION.findall(corps_options)
+        if len(options) < n_options:
+            r.err("module", "en-tête d'option non conforme — aide : « ### Option N — nom _(retenue)_ » ou « … _(écartée)_ »")
+        retenues = [nom for nom, tag in options if tag == "retenue"]
+        if statut == "Rejeté":
+            if retenues:
+                r.err("module", "ADR « Rejeté » avec une option _(retenue)_ — aide : un rejet ne retient rien, toutes les options sont _(écartée)_")
+        elif options and len(retenues) != 1:
+            r.err("module", f"{len(retenues)} option(s) _(retenue)_ — aide : exactement une option est retenue, les autres sont _(écartée)_")
+        for bloc in re.split(r"(?m)^###\s+Option", corps_options)[1:]:
+            for cle in ("Pour", "Contre"):
+                m_pc = re.search(rf"(?m)^\s*-\s*{cle}\s*:\s*(.*)$", bloc)
+                if not m_pc or not m_pc.group(1).strip():
+                    r.err("module", f"« {cle} : » vide ou absent dans une option — aide : un vrai contenu, ou le marqueur de lacune (« non documenté en séance »)")
         corps_dec = section_contenu(texte, titre_noyau_attendu("Décision"))
-        if corps_dec is not None:
+        if statut != "Rejeté" and corps_dec is not None:
             premiere = next((l.strip() for l in corps_dec.splitlines() if l.strip()), "")
-            if not re.match(r"(?i)^Option retenue\s*:.+parce qu", premiere):
+            m_or = re.match(r"(?i)^Option retenue\s*:\s*«\s*(.+?)\s*»\s*,\s*parce qu", premiere)
+            if not m_or:
                 r.err("Décision", "avec « Options considérées », la Décision commence par « Option retenue : « X », parce que … » (la justification fait partie de la structure)")
+            elif len(retenues) == 1 and m_or.group(1) != retenues[0]:
+                r.err("Décision", f"« Option retenue : « {m_or.group(1)} » » ≠ option _(retenue)_ du module (« {retenues[0]} ») — aide : libellés strictement identiques")
+        # justification creuse après « parce que » (jugement de valeur générique)
+        if corps_dec:
+            m_jc = RE_JUSTIF_CREUSE.search(corps_dec)
+            if m_jc:
+                r.warn("Décision", f"justification creuse « {m_jc.group(0)} » — aide : la raison déterminante est un FAIT tiré de la source, pas un jugement de valeur")
 
     # 3d. Références ADR-XXXX du corps (hors code inline et texte ~~barré~~),
     # mémorisées pour vérification contre l'index en lint de dossier.
@@ -416,6 +510,30 @@ def lint_fichier(chemin):
     corps_refs = re.sub(r"~~[^~\n]*~~", "", corps_refs)
     refs_champs = set(RE_ADR_REF.findall(champs.get("Remplace", "") + " " + champs.get("Remplacé par", "")))
     r.refs_corps = set(RE_ADR_REF.findall(corps_refs)) - {id_adr} - refs_champs
+
+    # 3e. Auto-suffisance : pas de renvoi interne (chaque section citable isolément)
+    texte_prose = re.sub(r"<!--.*?-->", "", texte_hors_code(texte), flags=re.DOTALL)
+    m_ana = RE_ANAPHORE.search(texte_prose)
+    if m_ana:
+        r.err("auto-suffisance", f"renvoi interne « {m_ana.group(0)} » — aide : nommer explicitement l'élément visé (une section doit rester compréhensible isolée)")
+
+    # 3f. Sobriété : pas de bloc de code ni de diagramme dans une ADR
+    if any(RE_FENCE.match(l) for l in texte.splitlines()):
+        r.warn("sobriété", "bloc de code / diagramme dans l'ADR — aide : lien vers la doc séparée dans « Références »")
+
+    # 3g. « Revue prévue le » (module Validation et suivi) porte une vraie date
+    corps_suivi = section_contenu(texte, "Validation et suivi")
+    if corps_suivi:
+        m_rev = re.search(r"(?m)^\s*-\s*Revue prévue le\s*:\s*(.+?)\s*$", corps_suivi)
+        if m_rev and m_rev.group(1) != "—":
+            v_rev = m_rev.group(1)
+            if not RE_DATE.match(v_rev):
+                r.err("Validation et suivi", f"« Revue prévue le » sans date réelle : « {v_rev} » (attendu AAAA-MM-JJ, ou « — »)")
+            else:
+                try:
+                    datetime.date.fromisoformat(v_rev)
+                except ValueError:
+                    r.err("Validation et suivi", f"date inexistante : « {v_rev} »")
 
     # 4. Aucun placeholder ni commentaire de gabarit résiduel
     if "<!--" in texte_hors_code(texte):

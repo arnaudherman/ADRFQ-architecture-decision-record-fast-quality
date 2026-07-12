@@ -9,6 +9,7 @@
 | ID                 | ADR-0001 |
 | Statut             | Accepté |
 | Date de décision   | 2026-05-14 |
+| Validé par         | Comité d'exposition du SI (vote du 2026-05-14) |
 | Équipe / périmètre | Architecture d'entreprise — exposition des services aux partenaires externes (intégration B2B) |
 | Mots-clés          | passerelle d'API, Kong, OAuth2, sécurité, intégration partenaire, observabilité |
 | Remplace           | — |

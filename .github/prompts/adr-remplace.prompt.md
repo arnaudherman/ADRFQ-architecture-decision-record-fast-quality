@@ -50,15 +50,16 @@ conséquences négatives en priorité, rien d'inventé).
 Une fois les réponses reçues :
 
 1. **Nouvelle ADR** : prochain ID libre, template canonique rempli, **statut « Proposé »**
-   — un remplacement ne s'auto-accepte **jamais** ; il sera accepté selon la même règle
-   mécanique que toute ADR (vote ou validation nominative). Champ « Remplace : ADR-XXXX »
-   renseigné. Le contexte explique pourquoi l'ancienne décision est remplacée.
+   (donc « Validé par » = « — ») — un remplacement ne s'auto-accepte **jamais** ; il sera
+   accepté selon la même règle mécanique que toute ADR (vote ou validation nominative, qui
+   ira alors dans « Validé par »). Champ « Remplace : ADR-XXXX » renseigné. Le contexte explique pourquoi l'ancienne décision est remplacée.
 2. **Ancienne ADR — trois retouches, rien d'autre** :
    - champ « Remplacé par » → l'ID de la nouvelle ;
    - champ « Statut » → « Remplacé » ;
    - préfixe de son résumé → `**[ADR-XXXX — Remplacé]**`.
-   Tu ne touches ni au Contexte, ni à la Décision, ni aux Conséquences de l'ancienne :
-   c'est un document d'archive, pas un brouillon.
+   Tu ne touches ni au Contexte, ni à la Décision, ni aux Conséquences de l'ancienne —
+   ni à son champ « Validé par », qui conserve la preuve d'origine : c'est un document
+   d'archive, pas un brouillon.
 3. **Vérification finale (obligatoire)** : `python3 scripts/lint-adr.py adr/` — la
    réciprocité Remplace/Remplacé-par et la cohérence des statuts y sont vérifiées.
    Corrige et relance, **au maximum deux passes** ; s'il reste des erreurs, montre-les.

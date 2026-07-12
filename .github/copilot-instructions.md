@@ -99,6 +99,8 @@ Un exemple de rendu conforme est disponible : [adr/ADR-0001-exemple.md](../adr/A
   une approbation nominative **approuvant cette décision** ; un **vote de report / ajournement**
   n'est PAS une acceptation → **Proposé** ; un consensus informel sans vote → **Proposé**.
   **En cas de doute → Proposé**, toujours (jamais « Accepté » par défaut).
+  **La preuve va dans « Validé par »** (personne (rôle) ou instance, jamais la liste des
+  présents) : Accepté/Rejeté ⇒ renseigné ; Proposé ⇒ « — » — le linter vérifie ce couplage.
 - Si la décision en **remplace** une autre : renseigne « Remplace » dans la nouvelle ADR
   ET mets à jour l'ADR visée **dans la même passe** — champ « Remplacé par », statut basculé
   à « Remplacé », préfixe de son résumé. Une ADR remplacée qui reste « Accepté » est

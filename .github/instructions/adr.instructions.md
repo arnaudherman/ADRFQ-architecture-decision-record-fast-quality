@@ -13,7 +13,8 @@ que soit la demande (retouche, changement de statut, correction) :
   réordonne, ne déplace jamais.
 - **Statut** dans la liste fermée { Proposé, Accepté, Remplacé, Déprécié, Rejeté }.
   Passage à « Accepté » **uniquement** sur preuve donnée par l'architecte (vote, validation
-  nominative) ; en cas de doute → « Proposé ».
+  nominative) ; en cas de doute → « Proposé ». **La preuve vit dans « Validé par »** :
+  Accepté/Rejeté ⇒ renseigné, Proposé ⇒ « — » ; une « Remplacé » conserve sa valeur d'origine.
 - **Le préfixe du résumé suit le statut.** Tout changement d'ID ou de statut dans la Carte
   d'identité se répercute sur le préfixe `**[ADR-XXXX — Statut]**` du bloc résumé, et
   réciproquement.

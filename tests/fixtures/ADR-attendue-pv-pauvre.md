@@ -11,6 +11,7 @@
 | ID                 | ADR-0005 |
 | Statut             | Proposé |
 | Date de décision   | 2026-06-08 |
+| Validé par         | — |
 | Équipe / périmètre | Architecture — service Référentiel Produits |
 | Mots-clés          | PostgreSQL, base de données, Référentiel Produits, persistance |
 | Remplace           | — |

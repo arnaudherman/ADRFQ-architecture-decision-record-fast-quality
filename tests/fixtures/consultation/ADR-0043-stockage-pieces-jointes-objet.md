@@ -11,6 +11,7 @@
 | ID                 | ADR-0043 |
 | Statut             | Accepté |
 | Date de décision   | 2026-01-20 |
+| Validé par         | Comité d'architecture (2026-01-20) |
 | Équipe / périmètre | Architecture — plateforme documentaire |
 | Mots-clés          | pièces jointes, stockage objet, S3, plateforme documentaire |
 | Remplace           | ADR-0042 |
