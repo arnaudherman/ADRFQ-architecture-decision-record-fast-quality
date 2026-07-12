@@ -148,7 +148,8 @@ le corpus ne doit **jamais citer une décision remplacée comme si elle était e
 - La réponse cite **ADR-0043** (stockage objet) comme décision en vigueur.
 - Elle **signale** que ADR-0042 (NAS) est remplacée — ou au minimum ne la présente pas
   comme applicable.
-- Bonus : l'assistant dit être passé par `adr/INDEX.md` ou par les statuts pour trancher.
+- Bonus : l'assistant dit s'être appuyé sur les **statuts** pour trancher (la paire de
+  fixtures vit hors du corpus `adr/`, elle n'apparaît donc pas dans `adr/INDEX.md`).
 
 ### Signaux d'échec
 

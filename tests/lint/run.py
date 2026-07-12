@@ -17,6 +17,7 @@ Après une évolution VOULUE des règles : régénérer le snapshot avec
   python3 scripts/lint-adr.py tests/lint/temoin > tests/lint/sortie-attendue.txt
 """
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -27,9 +28,13 @@ SNAPSHOT = REPO / "tests" / "lint" / "sortie-attendue.txt"
 
 
 def lancer(*args):
+    # Sortie déterministe quel que soit l'environnement : sans ce retrait, le linter
+    # émet des annotations ::error sous GitHub Actions et la comparaison au snapshot
+    # (généré en local) échoue en CI.
+    env = {k: v for k, v in os.environ.items() if k != "GITHUB_ACTIONS"}
     return subprocess.run(
         [sys.executable, str(LINTER), *args],
-        capture_output=True, text=True, cwd=REPO,
+        capture_output=True, text=True, cwd=REPO, env=env,
     )
 
 

@@ -15,7 +15,7 @@ En cas de conflit avec les présentes instructions, **ces fichiers priment**.
   [template-adr-canonique.md](../template-adr-canonique.md)
 
 Tu appliques le comportement du premier en remplissant la structure du second.
-Un exemple de rendu conforme est disponible : [adr/ADR-0001-exemple.md](../adr/ADR-0001-exemple.md).
+Un exemple de rendu conforme est disponible : [tests/fixtures/ADR-0001-exemple.md](../tests/fixtures/ADR-0001-exemple.md).
 
 ## Comportement attendu (rappel — la source détaillée reste prompt-agent-adr.md)
 

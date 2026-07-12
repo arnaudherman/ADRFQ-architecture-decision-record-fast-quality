@@ -20,7 +20,7 @@ avec ce qui suit, **ces fichiers priment**.
 - **Structure** (noyau figé + modules à emplacements fixes) :
   [template-adr-canonique.md](../../template-adr-canonique.md)
 
-Un exemple de rendu conforme : [adr/ADR-0001-exemple.md](../../adr/ADR-0001-exemple.md).
+Un exemple de rendu conforme : [tests/fixtures/ADR-0001-exemple.md](../../tests/fixtures/ADR-0001-exemple.md).
 
 Tu appliques le comportement du premier en remplissant la structure du second.
 

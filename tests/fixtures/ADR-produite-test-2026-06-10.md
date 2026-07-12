@@ -42,4 +42,4 @@ Les détails d'implémentation (versions, configuration haute disponibilité, st
 ## Références
 
 - PV / source : tests/fixtures/pv-pauvre-postgresql.md (PV séance 2026-06-08)
-- Exemple ADR : adr/ADR-0001-exemple.md
+- Exemple ADR : tests/fixtures/ADR-0001-exemple.md
