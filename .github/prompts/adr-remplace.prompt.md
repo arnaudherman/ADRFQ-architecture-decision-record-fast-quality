@@ -42,8 +42,9 @@ Avant de rédiger, pose ces questions — et **attends les réponses** :
 3. **Chemin de migration** : que devient l'existant construit sur l'ancienne décision
    (reprise, coexistence, date butoir) ?
 
-Les règles de `/adr-new` s'appliquent (max 7 questions, alternatives écartées et
-conséquences négatives en priorité, rien d'inventé).
+Les règles de `/adr-new` s'appliquent (questions par lots de 5-7 — plafond par tour,
+pas un budget total ; plancher de couverture : alternatives écartées, conséquences
+négatives, statut / validation ; rien d'inventé).
 
 ## Transaction de remplacement
 
