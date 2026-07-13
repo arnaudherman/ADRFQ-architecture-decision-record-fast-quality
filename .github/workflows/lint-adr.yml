@@ -1,0 +1,45 @@
+# Qualité des ADR — le linter n'est un garde-fou que s'il tourne tout seul.
+# Zéro dépendance : python3 est préinstallé sur ubuntu-latest.
+name: Qualité des ADR
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    name: Linter, tests et index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tests du linter (snapshot témoin, corpus, échec fermé)
+        run: python3 tests/lint/run.py
+
+      - name: Lint du dossier adr/ (annotations dans la PR)
+        run: python3 scripts/lint-adr.py adr
+
+      - name: Fraîcheur de l'index (adr/INDEX.md)
+        run: python3 scripts/lint-adr.py --check-index adr
+
+  lockstep:
+    name: Template et linter évoluent ensemble
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Vérifier le couplage template ↔ linter
+        run: |
+          base="origin/${{ github.base_ref }}"
+          modifies=$(git diff --name-only "$base"...HEAD)
+          echo "Fichiers modifiés :"
+          echo "$modifies"
+          if echo "$modifies" | grep -q '^template-adr-canonique\.md$'; then
+            if ! echo "$modifies" | grep -Eq '^(scripts/lint-adr\.py|tests/lint/)'; then
+              echo "::error file=template-adr-canonique.md::Le template évolue sans le linter ni son jeu de test — répercuter le changement de format dans scripts/lint-adr.py et tests/lint/ (README §13, « Faire évoluer le format »)."
+              exit 1
+            fi
+          fi

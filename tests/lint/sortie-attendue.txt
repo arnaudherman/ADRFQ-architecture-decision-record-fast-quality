@@ -1,0 +1,39 @@
+  ERREUR tests/lint/temoin/ADR-0002-temoin-cassee.md
+          ✗ [noyau] sections du noyau dans le désordre — aide : rétablir l'ordre canonique 1 → 5
+          ✗ [module] module « Références » hors de son emplacement fixe — aide : le placer après « 5. Conséquences »
+          ✗ [titre] l'ID du titre H1 (« ADR-0009 ») ne correspond pas à la Carte d'identité (« ADR-0002 »)
+          ✗ [Validé par] statut « Accepté » sans preuve de validation — aide : qui a tranché (personne, rôle ou instance) ? sans preuve nominative, le statut reste « Proposé »
+          ✗ [Statut] « Remplacé par » est renseigné mais le statut est « Accepté » — aide : une ADR remplacée passe au statut « Remplacé » (ou « Déprécié »)
+          ✗ [Date de décision] date inexistante : « 2026-13-45 »
+          ✗ [Équipe / périmètre] valeur vide
+          ✗ [Résumé] préfixe de validité manquant — aide : commencer le résumé par « **[ADR-XXXX — Statut]** » (mêmes valeurs que la Carte d'identité)
+          ✗ [Résumé] gabarit incomplet — marqueurs absents : « dans le contexte », « face à », « nous avons décidé », « afin de », « en acceptant »
+          ✗ [Résumé] formule vague dans le résumé (« divers ») — préciser ou retirer
+          ✗ [module] module optionnel vide, à retirer : « Références »
+          ✗ [noyau] section du noyau vide : « 4. Décision »
+          ✗ [auto-suffisance] renvoi interne « Comme mentionné plus haut » — aide : nommer explicitement l'élément visé (une section doit rester compréhensible isolée)
+          ✗ [placeholder] commentaire de gabarit résiduel « <!-- … --> »
+          ✗ [placeholder] placeholder non rempli : « [À remplir] » — aide : pour un crochet légitime, utiliser un lien « [texte](url) » ou « [texte][ref] »
+          ✗ [placeholder] marqueur de gabarit résiduel : « TODO »
+          ✗ [ID] ID dupliqué : « ADR-0002 » aussi utilisé par tests/lint/temoin/ADR-0002-temoin-doublon.md
+          ✗ [Remplacé par] « ADR-9999 » introuvable dans le dossier scanné — aide : référence pendante (ADR inexistante ou ID erroné)
+          ⚠ [Mots-clés] 1 mot(s)-clé(s) — le template en recommande 3 à 6
+          ⚠ [Résumé] plusieurs phrases détectées — le résumé doit tenir en UNE phrase auto-portante
+          ⚠ [sobriété] bloc de code / diagramme dans l'ADR — aide : lien vers la doc séparée dans « Références »
+          ⚠ [référence] « ADR-0009 » cité dans le corps mais introuvable dans le dossier scanné
+  ERREUR tests/lint/temoin/ADR-0002-temoin-doublon.md
+          ✗ [Statut] statut « Remplacé » sans « Remplacé par » renseigné — aide : indiquer l'ADR remplaçante
+          ✗ [ID] ID dupliqué : « ADR-0002 » déjà utilisé par tests/lint/temoin/ADR-0002-temoin-cassee.md
+  OK    tests/lint/temoin/ADR-0003-temoin-conforme.md
+  ERREUR tests/lint/temoin/ADR-0004-temoin-contrat.md
+          ✗ [identité] tableau de la Carte d'identité coupé en deux — aide : le tableau est d'un seul tenant, ne rien insérer entre ses lignes
+          ✗ [Validé par] statut « Proposé » avec « Validé par » renseigné — aide : une validation nominative existe ⇒ statut « Accepté » (ou « Rejeté ») ; sinon « — »
+          ✗ [Résumé] segments du gabarit hors ordre — aide : dans le contexte → face à → nous avons décidé → afin de → en acceptant (l'ordre permet le découpage fiable du résumé)
+          ✗ [module] « Contre : » vide ou absent dans une option — aide : un vrai contenu, ou le marqueur de lacune (« non documenté en séance »)
+          ✗ [Décision] « Option retenue : « Beta » » ≠ option _(retenue)_ du module (« Alpha ») — aide : libellés strictement identiques
+          ✗ [Validation et suivi] « Revue prévue le » sans date réelle : « bientôt » (attendu AAAA-MM-JJ, ou « — »)
+          ⚠ [Résumé] le compromis « en acceptant … » ne recoupe aucune puce des « Négatives et compromis acceptés » — aide : le résumé et la section 5 désignent le même compromis
+          ⚠ [Décision] justification creuse « la meilleure solution » — aide : la raison déterminante est un FAIT tiré de la source, pas un jugement de valeur
+
+Résumé : 1/4 conforme(s), 3 en erreur (4 fichier(s) scanné(s)).
+Corpus par statut : 2 Proposé, 1 Accepté, 1 Remplacé.

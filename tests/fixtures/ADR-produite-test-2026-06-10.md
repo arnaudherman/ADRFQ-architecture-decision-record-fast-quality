@@ -7,6 +7,7 @@
 | ID                 | ADR-0002 |
 | Statut             | Proposé |
 | Date de décision   | 2026-06-08 |
+| Validé par         | — |
 | Équipe / périmètre | non documenté en séance (présents : Arnaud, Mehdi, Jonas) |
 | Mots-clés          | PostgreSQL, base de données, Référentiel Produits, provisioning |
 | Remplace           | — |
@@ -14,7 +15,7 @@
 
 ## 2. Résumé de la décision
 
-> Dans le contexte du nouveau service Référentiel Produits, face au besoin de choisir une base de données pour la persistance, nous avons décidé d'utiliser PostgreSQL afin d'obtenir un bénéfice non documenté en séance, en acceptant des compromis non évalués en séance.
+> **[ADR-0002 — Proposé]** Dans le contexte du nouveau service Référentiel Produits, face au besoin de choisir une base de données pour la persistance, nous avons décidé d'utiliser PostgreSQL afin d'obtenir un bénéfice non documenté en séance, en acceptant des compromis non évalués en séance.
 
 ## 3. Contexte et problème
 
@@ -41,4 +42,4 @@ Les détails d'implémentation (versions, configuration haute disponibilité, st
 ## Références
 
 - PV / source : tests/fixtures/pv-pauvre-postgresql.md (PV séance 2026-06-08)
-- Exemple ADR : adr/ADR-0001-exemple.md
+- Exemple ADR : tests/fixtures/ADR-0001-exemple.md
